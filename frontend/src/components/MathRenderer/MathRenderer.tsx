@@ -48,11 +48,17 @@ const MathRenderer: React.FC<MathRendererProps> = React.memo(
   ({ latex, displayMode = false }) => {
     const segments = useMemo(() => parseSegments(latex), [latex]);
 
-    // If the whole string is pure math (no $ delimiters found, or single
-    // expression), try rendering it as-is for backwards compatibility
+    // If no delimiters are present, only attempt KaTeX rendering when the
+    // content appears to be math-like. Otherwise render plain text to preserve
+    // spacing and avoid italicized prose.
     if (segments.length === 1 && !segments[0].isMath) {
-      // No $ delimiters found — try as raw KaTeX
       const stripped = latex.trim().replace(/^\$+|\$+$/g, "").trim();
+      const looksMathLike = /\\[a-zA-Z]+|[\^_{}]|=|\d\s*[+\-*/]\s*\d/.test(stripped);
+
+      if (!looksMathLike) {
+        return <span>{latex}</span>;
+      }
+
       if (stripped) {
         try {
           const html = renderMath(stripped, displayMode);

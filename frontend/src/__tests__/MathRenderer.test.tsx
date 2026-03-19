@@ -8,12 +8,11 @@ describe("MathRenderer", () => {
     expect(katexEl).toBeInTheDocument();
   });
 
-  it("renders plain text without delimiters through KaTeX", () => {
+  it("renders plain text without delimiters as plain text", () => {
     const { container } = render(<MathRenderer latex="hello world" />);
-    // Without $ delimiters, the component still tries to render via KaTeX.
-    // Verify the component renders without crashing and produces output.
     expect(container.querySelector("span")).toBeInTheDocument();
-    expect(container.textContent).toContain("hello");
+    expect(container.textContent).toContain("hello world");
+    expect(document.querySelector(".katex")).not.toBeInTheDocument();
   });
 
   it("renders mixed text and math", () => {

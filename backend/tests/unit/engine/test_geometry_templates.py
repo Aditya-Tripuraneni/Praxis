@@ -208,6 +208,28 @@ class TestLineEquation:
             # Should contain y and x in the answer
             assert "y" in p.answer_latex.value or "x" in p.answer_latex.value
 
+    def test_medium_includes_slope_formula_step(self):
+        templates = registry.get_templates_for_subtopic(
+            Topic.GEOMETRY, "line_equation", Difficulty.MEDIUM
+        )
+        if not templates:
+            pytest.skip("No line_equation templates")
+
+        p = templates[0].generate(Difficulty.MEDIUM, random.Random(7))
+        combined_steps = " ".join(step.value for step in p.solution_steps)
+        assert "\\frac{y_2 - y_1}{x_2 - x_1}" in combined_steps
+
+    def test_hard_includes_perpendicular_formula_step(self):
+        templates = registry.get_templates_for_subtopic(
+            Topic.GEOMETRY, "line_equation", Difficulty.HARD
+        )
+        if not templates:
+            pytest.skip("No line_equation templates")
+
+        p = templates[0].generate(Difficulty.HARD, random.Random(11))
+        combined_steps = " ".join(step.value for step in p.solution_steps)
+        assert "m_{\\perp} = -\\frac{1}{m}" in combined_steps
+
 
 class TestNoEdgeCaseFailures:
     """Stress test: generate many problems and ensure no crashes."""
