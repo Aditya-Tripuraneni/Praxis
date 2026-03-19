@@ -2,11 +2,15 @@ name: Frontend CI
 
 on:
   push:
-    paths:
-      - "frontend/**"
+    branches:
+      - main
   pull_request:
-    paths:
-      - "frontend/**"
+    branches:
+      - main
+
+concurrency:
+  group: frontend-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 defaults:
   run:
