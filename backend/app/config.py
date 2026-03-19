@@ -3,6 +3,8 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     cors_origins: list[str] = ["http://localhost:5173"]
+    # Optional regex to allow dynamic origins, e.g. Vercel preview URLs.
+    cors_origin_regex: str | None = None
     log_level: str = "info"
     enable_docs: bool = False
 
