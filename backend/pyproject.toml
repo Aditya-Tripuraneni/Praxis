@@ -1,0 +1,28 @@
+[project]
+name = "praxis-backend"
+version = "0.1.0"
+description = "Math practice test generator — backend API and engine"
+requires-python = ">=3.12"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 99
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+# Word-problem context pools and LaTeX formula strings are inherently long
+"app/engine/topics/combinatorics/_helpers.py" = ["E501"]
+"app/engine/topics/combinatorics/templates.py" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+filterwarnings = [
+    # storage3 v2.25.1 (Supabase SDK dependency) uses deprecated Pydantic V1 syntax
+    # (Extra.ignore instead of extra='ignore'). This is a known upstream issue in
+    # storage3/types.py — 23 classes use the old enum form. Suppressing to keep test
+    # output clean until storage3 ships a fix. Does NOT suppress our own Pydantic warnings.
+    "ignore::pydantic.warnings.PydanticDeprecatedSince20:storage3",
+]

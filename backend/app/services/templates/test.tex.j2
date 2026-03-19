@@ -1,0 +1,73 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\cfoot{Page \thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\begin{center}
+{\LARGE \textbf{Math Practice Test}}
+\end{center}
+
+\vspace{0.2cm}
+
+\noindent Date: << date >> \hfill Test ID: << test_id|latex_escape >> \\
+\noindent Topics: << topics|latex_escape >> \hfill Difficulty: << difficulty|latex_escape >> \hfill Questions: << count >>
+
+\vspace{0.5cm}
+\noindent\rule{\textwidth}{0.4pt}
+\vspace{0.3cm}
+
+\section*{Questions}
+
+\begin{enumerate}[leftmargin=2em, itemsep=12pt]
+<% for q in questions %>
+\item << q.question_latex >>
+<% endfor %>
+\end{enumerate}
+
+<% if include_answers %>
+\newpage
+
+\begin{center}
+{\LARGE \textbf{Answer Key}}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{enumerate}[leftmargin=2em, itemsep=8pt]
+<% for q in questions %>
+\item << q.answer_latex >>
+<% endfor %>
+\end{enumerate}
+<% endif %>
+
+<% if include_solutions %>
+\newpage
+\begin{center}
+{\Large \textbf{Worked Solutions}}
+\end{center}
+\vspace{1em}
+\begin{enumerate}[leftmargin=2em, itemsep=16pt]
+<% for q in questions %>
+\item
+<% if q.solution_steps %>
+\begin{enumerate}[label={\textbf{Step \arabic*:}}, leftmargin=3em, itemsep=4pt]
+<% for step in q.solution_steps %>
+\item << step >>
+<% endfor %>
+\end{enumerate}
+<% else %>
+<< q.answer_latex >>
+<% endif %>
+<% endfor %>
+\end{enumerate}
+<% endif %>
+
+\end{document}

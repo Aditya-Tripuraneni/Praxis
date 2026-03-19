@@ -1,0 +1,65 @@
+name: Backend CI
+
+on:
+  push:
+    paths:
+      - "backend/**"
+  pull_request:
+    paths:
+      - "backend/**"
+
+defaults:
+  run:
+    working-directory: backend/
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install dependencies
+        run: uv pip install --system -r requirements-dev.txt
+
+      - name: Ruff check
+        run: ruff check app/
+
+      - name: Ruff format check
+        run: ruff format --check app/
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install Tectonic (for PDF tests)
+        run: |
+          curl -sSL -o /tmp/tectonic.tar.gz \
+            https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-unknown-linux-gnu.tar.gz
+          sudo tar xz -C /usr/local/bin/ -f /tmp/tectonic.tar.gz
+          rm /tmp/tectonic.tar.gz
+          tectonic --version
+
+      - name: Install dependencies
+        run: uv pip install --system -r requirements-dev.txt
+
+      - name: Run tests with coverage
+        run: pytest --cov=app --cov-report=xml --cov-fail-under=80 -v

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concept A: Praxis Axis — In Context</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg viewBox='0 0 44 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='4' y1='40' x2='40' y2='4' stroke='%23134e4a' stroke-width='7' stroke-linecap='round'/%3E%3Cline x1='4' y1='4' x2='40' y2='40' stroke='%230d9488' stroke-width='7' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='22' r='4' fill='%23f97316'/%3E%3C/svg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+  :root {
+    --nav-bg: #0f2b2e; --teal-50: #f0fdfa; --teal-500: #14b8a6;
+    --teal-600: #0d9488; --teal-700: #0f766e; --teal-900: #134e4a;
+    --orange-500: #f97316; --stone-200: #e7e5e4; --stone-500: #78716c; --stone-800: #292524;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: var(--teal-50); color: var(--stone-800); }
+
+  .note { background: #fffbeb; border: 1px solid #fcd34d; border-radius: 10px; padding: 16px 20px; margin: 24px; font-size: 0.875rem; color: #92400e; }
+  .note strong { display: block; margin-bottom: 4px; }
+
+  /* ── NAV ── */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px; background: var(--nav-bg); position: sticky; top: 0; z-index: 50;
+  }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-link { color: #99f6e4; font-size: 0.875rem; font-weight: 500; text-decoration: none; }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 80px 20px 64px;
+    background: linear-gradient(135deg, #134e4a 0%, #0f766e 50%, #0d9488 100%);
+  }
+  .hero-tagline { font-size: 1.125rem; color: #99f6e4; margin-top: 16px; }
+  .hero-sub { font-size: 0.875rem; color: #ccfbf1; margin-top: 12px; margin-bottom: 32px; }
+  .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 32px; font-family: inherit; font-size: 1rem; font-weight: 600;
+    color: #fff; background: var(--orange-500); border: none; border-radius: 14px;
+    cursor: pointer; box-shadow: 0 2px 8px rgba(249,115,22,0.3);
+  }
+  .btn-secondary {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 24px; font-family: inherit; font-size: 0.875rem; font-weight: 500;
+    color: var(--teal-700); background: #fff; border: 1.5px solid var(--stone-200);
+    border-radius: 14px; cursor: pointer;
+  }
+
+  /* ── FAVICON PREVIEW ── */
+  .favicon-section { max-width: 700px; margin: 48px auto; padding: 0 24px; }
+  .favicon-section h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal-600); font-weight: 700; margin-bottom: 16px; }
+  .favicon-row { display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap; }
+  .fav-item { text-align: center; }
+  .fav-label { font-size: 0.75rem; color: var(--stone-500); margin-top: 8px; }
+  .fav-box { border: 1px solid var(--stone-200); border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; padding: 2px; background: #fff; }
+
+  /* ── PDF PREVIEW ── */
+  .pdf-section { max-width: 700px; margin: 48px auto; padding: 0 24px; }
+  .pdf-section h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal-600); font-weight: 700; margin-bottom: 16px; }
+  .pdf-mock {
+    background: #fff; border: 1px solid var(--stone-200); border-radius: 8px;
+    padding: 32px; width: 500px; position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .pdf-watermark { position: absolute; top: 16px; right: 16px; opacity: 0.12; }
+  .pdf-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; color: var(--stone-800); }
+  .pdf-meta { font-size: 0.75rem; color: var(--stone-500); margin-bottom: 24px; }
+  .pdf-q { font-size: 0.875rem; color: var(--stone-800); padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+</style>
+</head>
+<body>
+
+<div class="note">
+  <strong>Concept A: Praxis Axis — In Context</strong>
+  The X as a coordinate axis cross with an orange origin dot. Shown in the actual nav header,
+  landing hero, favicon, and PDF watermark contexts. Check the browser tab — the favicon is live.
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <svg viewBox="0 0 170 36" width="170" height="36" xmlns="http://www.w3.org/2000/svg">
+    <text x="0" y="28" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="26" font-weight="800" fill="#5eead4" letter-spacing="-0.3">Pra</text>
+    <g transform="translate(72, 3)">
+      <line x1="0" y1="28" x2="22" y2="0" stroke="#5eead4" stroke-width="4.5" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="22" y2="28" stroke="#99f6e4" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="11" cy="14" r="2.5" fill="#f97316"/>
+    </g>
+    <text x="96" y="28" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="26" font-weight="800" fill="#5eead4" letter-spacing="-0.3">is</text>
+  </svg>
+  <div class="nav-links">
+    <a href="#" class="nav-link">Generate</a>
+    <a href="#" class="nav-link">Dashboard</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <svg viewBox="0 0 360 80" width="360" height="80" xmlns="http://www.w3.org/2000/svg">
+    <text x="0" y="60" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="60" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Pra</text>
+    <g transform="translate(153, 8)">
+      <line x1="0" y1="56" x2="46" y2="0" stroke="#ffffff" stroke-width="9" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="46" y2="56" stroke="#ccfbf1" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="23" cy="28" r="5" fill="#f97316"/>
+    </g>
+    <text x="203" y="60" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="60" font-weight="800" fill="#ffffff" letter-spacing="-0.5">is</text>
+  </svg>
+  <p class="hero-tagline">Generate unlimited math practice tests instantly</p>
+  <p class="hero-sub">6 topics, 3 difficulty levels, instant PDF download</p>
+  <div style="display:flex; gap:16px; justify-content:center;">
+    <button class="btn-primary">Get Started</button>
+    <button class="btn-secondary">Try a Sample</button>
+  </div>
+</div>
+
+<!-- ═══ FAVICON ═══ -->
+<div class="favicon-section">
+  <h3>Favicon / App Icon Preview</h3>
+  <div class="favicon-row">
+    <div class="fav-item">
+      <div class="fav-box">
+        <svg viewBox="0 0 44 44" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+          <line x1="4" y1="40" x2="40" y2="4" stroke="#134e4a" stroke-width="8" stroke-linecap="round"/>
+          <line x1="4" y1="4" x2="40" y2="40" stroke="#0d9488" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="22" cy="22" r="5" fill="#f97316"/>
+        </svg>
+      </div>
+      <div class="fav-label">16x16</div>
+    </div>
+    <div class="fav-item">
+      <div class="fav-box">
+        <svg viewBox="0 0 44 44" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+          <line x1="4" y1="40" x2="40" y2="4" stroke="#134e4a" stroke-width="7" stroke-linecap="round"/>
+          <line x1="4" y1="4" x2="40" y2="40" stroke="#0d9488" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="22" cy="22" r="4" fill="#f97316"/>
+        </svg>
+      </div>
+      <div class="fav-label">32x32</div>
+    </div>
+    <div class="fav-item">
+      <div class="fav-box" style="border-radius:12px;">
+        <svg viewBox="0 0 44 44" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+          <line x1="4" y1="40" x2="40" y2="4" stroke="#134e4a" stroke-width="7" stroke-linecap="round"/>
+          <line x1="4" y1="4" x2="40" y2="40" stroke="#0d9488" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="22" cy="22" r="4" fill="#f97316"/>
+        </svg>
+      </div>
+      <div class="fav-label">App icon</div>
+    </div>
+    <div class="fav-item">
+      <div class="fav-box" style="background:var(--nav-bg); border-color:var(--nav-bg); border-radius:12px;">
+        <svg viewBox="0 0 44 44" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+          <line x1="4" y1="40" x2="40" y2="4" stroke="#5eead4" stroke-width="7" stroke-linecap="round"/>
+          <line x1="4" y1="4" x2="40" y2="40" stroke="#99f6e4" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="22" cy="22" r="4" fill="#f97316"/>
+        </svg>
+      </div>
+      <div class="fav-label">Dark variant</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PDF ═══ -->
+<div class="pdf-section">
+  <h3>PDF Corner Watermark</h3>
+  <div class="pdf-mock">
+    <div class="pdf-watermark">
+      <svg viewBox="0 0 120 30" width="120" height="30" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="22" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="20" font-weight="800" fill="#134e4a" letter-spacing="-0.3">Pra</text>
+        <g transform="translate(54, 2)">
+          <line x1="0" y1="22" x2="16" y2="0" stroke="#134e4a" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="0" y1="0" x2="16" y2="22" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="8" cy="11" r="2" fill="#f97316"/>
+        </g>
+        <text x="72" y="22" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="20" font-weight="800" fill="#134e4a" letter-spacing="-0.3">is</text>
+      </svg>
+    </div>
+    <div class="pdf-title">Math Practice Test</div>
+    <div class="pdf-meta">Algebra &middot; Medium &middot; 20 Questions &middot; March 18, 2026</div>
+    <div class="pdf-q"><strong>1.</strong> Solve for x: 3x + 7 = 22</div>
+    <div class="pdf-q"><strong>2.</strong> Factor: x&sup2; &minus; 5x + 6</div>
+    <div class="pdf-q"><strong>3.</strong> Simplify: (2x + 3)(x &minus; 4)</div>
+    <div class="pdf-q" style="border:none;"><strong>4.</strong> Solve the system: 2x + y = 7, x &minus; y = 2</div>
+  </div>
+</div>
+
+<div style="height:64px;"></div>
+</body>
+</html>

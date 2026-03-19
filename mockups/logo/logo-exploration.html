@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Praxis — Logo Exploration Board</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --teal-50: #f0fdfa; --teal-100: #ccfbf1; --teal-200: #99f6e4;
+    --teal-300: #5eead4; --teal-400: #2dd4bf; --teal-500: #14b8a6;
+    --teal-600: #0d9488; --teal-700: #0f766e; --teal-800: #115e59;
+    --teal-900: #134e4a;
+    --orange-500: #f97316; --orange-600: #ea580c;
+    --nav-bg: #0f2b2e;
+    --stone-100: #f5f5f4; --stone-200: #e7e5e4; --stone-500: #78716c;
+    --stone-800: #292524;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #f8fafc; color: var(--stone-800); line-height: 1.6; }
+
+  .board-header {
+    background: var(--nav-bg); color: #fff; padding: 48px 40px;
+  }
+  .board-header h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+  .board-header p { color: var(--teal-200); font-size: 0.95rem; max-width: 700px; }
+
+  .research-notes {
+    max-width: 900px; margin: 32px auto; padding: 0 24px;
+    background: #fffbeb; border: 1px solid #fcd34d; border-radius: 12px;
+    padding: 24px; font-size: 0.875rem; color: #92400e;
+  }
+  .research-notes h3 { margin-bottom: 12px; font-size: 1rem; }
+  .research-notes ul { padding-left: 20px; }
+  .research-notes li { margin-bottom: 6px; }
+
+  .concept { max-width: 900px; margin: 48px auto; padding: 0 24px; }
+  .concept-header { margin-bottom: 24px; }
+  .concept-header h2 { font-size: 1.5rem; font-weight: 700; color: var(--teal-900); }
+  .concept-header .concept-num { color: var(--orange-500); font-weight: 800; }
+  .concept-header p { font-size: 0.9rem; color: var(--stone-500); margin-top: 8px; max-width: 650px; }
+
+  .context-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .context-box {
+    flex: 1; min-width: 200px; border-radius: 12px; padding: 32px 24px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--stone-200);
+  }
+  .context-box.light { background: var(--teal-50); }
+  .context-box.dark { background: var(--nav-bg); }
+  .context-box.white { background: #ffffff; }
+  .context-box.mono { background: #ffffff; }
+
+  .size-row { display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap; margin-top: 16px; }
+  .size-item { text-align: center; }
+  .size-label { font-size: 0.75rem; color: var(--stone-500); margin-top: 8px; }
+
+  .divider { max-width: 900px; margin: 0 auto; border-top: 1px solid var(--stone-200); }
+
+  .section-title {
+    max-width: 900px; margin: 48px auto 0; padding: 0 24px;
+    font-size: 0.75rem; font-weight: 700; color: var(--teal-600);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* Favicon grid */
+  .favicon-row { display: flex; gap: 16px; align-items: center; margin-top: 8px; }
+  .favicon-box {
+    border: 1px solid var(--stone-200); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- HEADER -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<div class="board-header">
+  <h1>Praxis — Logo Exploration</h1>
+  <p>
+    Five logo concepts for the Praxis math practice platform. Each concept is shown on light,
+    dark, and white backgrounds, plus at favicon and hero sizes. All logos are inline SVG.
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- RESEARCH NOTES -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<div class="research-notes">
+  <h3>Design Research — Key Insights</h3>
+  <ul>
+    <li><strong>The "x" is the asset.</strong> Praxis has a natural geometric centerpiece: the letter X. It's a cross, a variable, a multiplication sign, a coordinate axis intersection. Every strong concept should leverage this.</li>
+    <li><strong>Educational logos skew geometric.</strong> Brilliant uses a geometric star. Wolfram uses angular shapes. Desmos is a clean wordmark. The pattern: mathematical precision rendered as visual design.</li>
+    <li><strong>Short names work as wordmarks.</strong> At 6 letters, "Praxis" is compact enough for a pure typographic treatment. The X provides natural visual weight.</li>
+    <li><strong>Scalability test: favicon.</strong> The standalone mark must read at 16px. Complex shapes fail here. Simple geometry wins.</li>
+    <li><strong>Color role:</strong> Teal = primary/trust/scholarship. Orange = accent/energy/action. The logo should be primarily teal with orange as an optional accent.</li>
+    <li><strong>Avoid:</strong> Pi symbols (overused), graduation caps (generic), lightbulbs (cliché), golden spirals (overused in math branding).</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- CONCEPT A: PRAXIS AXIS -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<div class="concept">
+  <div class="concept-header">
+    <h2><span class="concept-num">A.</span> Praxis Axis</h2>
+    <p>
+      The X in Praxis is rendered as a coordinate axis cross — two perpendicular lines that evoke
+      both graph paper and the mathematical variable x. The horizontal bar extends slightly beyond
+      the letter, suggesting forward momentum. The wordmark uses geometric letter spacing with the
+      X as the visual anchor point. Bold, modern, mathematical.
+    </p>
+  </div>
+
+  <div class="context-row">
+    <!-- Light background -->
+    <div class="context-box light">
+      <svg viewBox="0 0 280 60" width="280" height="60" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="44" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="42" font-weight="800" fill="#134e4a" letter-spacing="-0.5">Pra</text>
+        <!-- X as axis cross -->
+        <g transform="translate(118, 8)">
+          <line x1="0" y1="44" x2="36" y2="0" stroke="#134e4a" stroke-width="7" stroke-linecap="round"/>
+          <line x1="0" y1="0" x2="36" y2="44" stroke="#0d9488" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="18" cy="22" r="3.5" fill="#f97316"/>
+        </g>
+        <text x="157" y="44" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="42" font-weight="800" fill="#134e4a" letter-spacing="-0.5">is</text>
+      </svg>
+    </div>
+    <!-- Dark background -->
+    <div class="context-box dark">
+      <svg viewBox="0 0 280 60" width="280" height="60" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="44" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="42" font-weight="800" fill="#5eead4" letter-spacing="-0.5">Pra</text>
+        <g transform="translate(118, 8)">
+          <line x1="0" y1="44" x2="36" y2="0" stroke="#5eead4" stroke-width="7" stroke-linecap="round"/>
+          <line x1="0" y1="0" x2="36" y2="44" stroke="#99f6e4" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="18" cy="22" r="3.5" fill="#f97316"/>
+        </g>
+        <text x="157" y="44" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="42" font-weight="800" fill="#5eead4" letter-spacing="-0.5">is</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Standalone mark + sizes -->
+  <div class="size-row">
+    <div class="size-item">
+      <svg viewBox="0 0 44 44" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+        <line x1="4" y1="40" x2="40" y2="4" stroke="#134e4a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="4" y1="4" x2="40" y2="40" stroke="#0d9488" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="22" cy="22" r="4" fill="#f97316"/>
+      </svg>
+      <div class="size-label">16px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 44 44" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+        <line x1="4" y1="40" x2="40" y2="4" stroke="#134e4a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="4" y1="4" x2="40" y2="40" stroke="#0d9488" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="22" cy="22" r="4" fill="#f97316"/>
+      </svg>
+      <div class="size-label">32px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 44 44" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+        <line x1="4" y1="40" x2="40" y2="4" stroke="#134e4a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="4" y1="4" x2="40" y2="40" stroke="#0d9488" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="22" cy="22" r="4" fill="#f97316"/>
+      </svg>
+      <div class="size-label">64px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 44 44" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+        <line x1="4" y1="40" x2="40" y2="4" stroke="#134e4a" stroke-width="7" stroke-linecap="round"/>
+        <line x1="4" y1="4" x2="40" y2="40" stroke="#0d9488" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="22" cy="22" r="4" fill="#f97316"/>
+      </svg>
+      <div class="size-label">128px (hero)</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 44 44" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+        <line x1="4" y1="40" x2="40" y2="4" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="4" y1="4" x2="40" y2="40" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">Mono</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- CONCEPT B: PRAXIS SCHOLAR -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<div class="concept">
+  <div class="concept-header">
+    <h2><span class="concept-num">B.</span> Praxis Scholar</h2>
+    <p>
+      A refined wordmark where the X is drawn with two intersecting pen strokes — evoking
+      handwriting, the act of working through problems on paper. The strokes are slightly
+      calligraphic, contrasting with the geometric sans-serif of the other letters. Scholarly
+      yet human. The standalone mark is the penned X alone.
+    </p>
+  </div>
+
+  <div class="context-row">
+    <div class="context-box light">
+      <svg viewBox="0 0 260 56" width="260" height="56" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="40" font-weight="700" fill="#134e4a" letter-spacing="0.5">Pra</text>
+        <g transform="translate(108, 6)">
+          <path d="M2 42 Q16 20 34 2" stroke="#134e4a" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M2 2 Q16 22 34 42" stroke="#0f766e" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </g>
+        <text x="146" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="40" font-weight="700" fill="#134e4a" letter-spacing="0.5">is</text>
+      </svg>
+    </div>
+    <div class="context-box dark">
+      <svg viewBox="0 0 260 56" width="260" height="56" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="40" font-weight="700" fill="#5eead4" letter-spacing="0.5">Pra</text>
+        <g transform="translate(108, 6)">
+          <path d="M2 42 Q16 20 34 2" stroke="#5eead4" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M2 2 Q16 22 34 42" stroke="#99f6e4" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </g>
+        <text x="146" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="40" font-weight="700" fill="#5eead4" letter-spacing="0.5">is</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="size-row">
+    <div class="size-item">
+      <svg viewBox="0 0 40 44" width="16" height="18" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 42 Q16 20 34 2" stroke="#134e4a" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M2 2 Q16 22 34 42" stroke="#0f766e" stroke-width="6" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">16px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 40 44" width="32" height="35" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 42 Q16 20 34 2" stroke="#134e4a" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M2 2 Q16 22 34 42" stroke="#0f766e" stroke-width="6" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">32px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 40 44" width="64" height="70" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 42 Q16 20 34 2" stroke="#134e4a" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M2 2 Q16 22 34 42" stroke="#0f766e" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">64px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 40 44" width="128" height="140" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 42 Q16 20 34 2" stroke="#134e4a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <path d="M2 2 Q16 22 34 42" stroke="#0f766e" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">128px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 40 44" width="64" height="70" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 42 Q16 20 34 2" stroke="#134e4a" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M2 2 Q16 22 34 42" stroke="#134e4a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">Mono</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- CONCEPT C: PRAXIS GRID -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<div class="concept">
+  <div class="concept-header">
+    <h2><span class="concept-num">C.</span> Praxis Grid</h2>
+    <p>
+      A combination mark: the standalone icon is an X inscribed within a rounded square — like
+      a checkbox being marked, or a point on graph paper. The square suggests structure (a test,
+      a worksheet, a grid), while the X suggests completion and action. The word "Praxis" sits
+      beside it in clean weight 700. Practical, structured, satisfying.
+    </p>
+  </div>
+
+  <div class="context-row">
+    <div class="context-box light">
+      <svg viewBox="0 0 300 52" width="300" height="52" xmlns="http://www.w3.org/2000/svg">
+        <!-- Icon -->
+        <rect x="2" y="4" width="44" height="44" rx="10" fill="none" stroke="#134e4a" stroke-width="3"/>
+        <line x1="14" y1="16" x2="34" y2="36" stroke="#0d9488" stroke-width="4.5" stroke-linecap="round"/>
+        <line x1="34" y1="16" x2="14" y2="36" stroke="#0d9488" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="24" cy="26" r="3" fill="#f97316"/>
+        <!-- Wordmark -->
+        <text x="60" y="40" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="38" font-weight="700" fill="#134e4a" letter-spacing="1">Praxis</text>
+      </svg>
+    </div>
+    <div class="context-box dark">
+      <svg viewBox="0 0 300 52" width="300" height="52" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="4" width="44" height="44" rx="10" fill="none" stroke="#5eead4" stroke-width="3"/>
+        <line x1="14" y1="16" x2="34" y2="36" stroke="#99f6e4" stroke-width="4.5" stroke-linecap="round"/>
+        <line x1="34" y1="16" x2="14" y2="36" stroke="#99f6e4" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="24" cy="26" r="3" fill="#f97316"/>
+        <text x="60" y="40" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="38" font-weight="700" fill="#5eead4" letter-spacing="1">Praxis</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="size-row">
+    <div class="size-item">
+      <svg viewBox="0 0 48 48" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="10" fill="#134e4a"/>
+        <line x1="14" y1="14" x2="34" y2="34" stroke="#5eead4" stroke-width="6" stroke-linecap="round"/>
+        <line x1="34" y1="14" x2="14" y2="34" stroke="#5eead4" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">16px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 48 48" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="10" fill="#134e4a"/>
+        <line x1="14" y1="14" x2="34" y2="34" stroke="#5eead4" stroke-width="6" stroke-linecap="round"/>
+        <line x1="34" y1="14" x2="14" y2="34" stroke="#5eead4" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">32px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 48 48" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="10" fill="#134e4a"/>
+        <line x1="14" y1="14" x2="34" y2="34" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/>
+        <line x1="34" y1="14" x2="14" y2="34" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="24" cy="24" r="3" fill="#f97316"/>
+      </svg>
+      <div class="size-label">64px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 48 48" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="10" fill="#134e4a"/>
+        <line x1="14" y1="14" x2="34" y2="34" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/>
+        <line x1="34" y1="14" x2="14" y2="34" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="24" cy="24" r="3" fill="#f97316"/>
+      </svg>
+      <div class="size-label">128px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 48 48" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="10" fill="none" stroke="#134e4a" stroke-width="3"/>
+        <line x1="14" y1="14" x2="34" y2="34" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="34" y1="14" x2="14" y2="34" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">Mono</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- CONCEPT D: PRAXIS ITERATE -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<div class="concept">
+  <div class="concept-header">
+    <h2><span class="concept-num">D.</span> Praxis Iterate</h2>
+    <p>
+      The standalone mark is three progressively bolder X strokes layered concentrically — each
+      iteration slightly larger and darker than the last, visualizing the concept of "practice
+      makes progress." The lightest X is the first attempt, the boldest is mastery. The word
+      "Praxis" uses extra-bold weight with tight spacing. Energetic, growth-oriented.
+    </p>
+  </div>
+
+  <div class="context-row">
+    <div class="context-box light">
+      <svg viewBox="0 0 310 52" width="310" height="52" xmlns="http://www.w3.org/2000/svg">
+        <!-- Iterate icon -->
+        <g transform="translate(4, 4)">
+          <!-- Iteration 1 (lightest) -->
+          <line x1="14" y1="10" x2="30" y2="34" stroke="#99f6e4" stroke-width="4" stroke-linecap="round"/>
+          <line x1="30" y1="10" x2="14" y2="34" stroke="#99f6e4" stroke-width="4" stroke-linecap="round"/>
+          <!-- Iteration 2 (medium) -->
+          <line x1="10" y1="6" x2="34" y2="38" stroke="#14b8a6" stroke-width="4" stroke-linecap="round"/>
+          <line x1="34" y1="6" x2="10" y2="38" stroke="#14b8a6" stroke-width="4" stroke-linecap="round"/>
+          <!-- Iteration 3 (boldest) -->
+          <line x1="6" y1="2" x2="38" y2="42" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+          <line x1="38" y1="2" x2="6" y2="42" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <text x="58" y="40" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="38" font-weight="800" fill="#134e4a" letter-spacing="-0.5">Praxis</text>
+      </svg>
+    </div>
+    <div class="context-box dark">
+      <svg viewBox="0 0 310 52" width="310" height="52" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(4, 4)">
+          <line x1="14" y1="10" x2="30" y2="34" stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+          <line x1="30" y1="10" x2="14" y2="34" stroke="#0f766e" stroke-width="4" stroke-linecap="round"/>
+          <line x1="10" y1="6" x2="34" y2="38" stroke="#14b8a6" stroke-width="4" stroke-linecap="round"/>
+          <line x1="34" y1="6" x2="10" y2="38" stroke="#14b8a6" stroke-width="4" stroke-linecap="round"/>
+          <line x1="6" y1="2" x2="38" y2="42" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/>
+          <line x1="38" y1="2" x2="6" y2="42" stroke="#5eead4" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <text x="58" y="40" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="38" font-weight="800" fill="#5eead4" letter-spacing="-0.5">Praxis</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="size-row">
+    <div class="size-item">
+      <svg viewBox="0 0 44 44" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+        <line x1="6" y1="2" x2="38" y2="42" stroke="#134e4a" stroke-width="6" stroke-linecap="round"/>
+        <line x1="38" y1="2" x2="6" y2="42" stroke="#134e4a" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">16px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 44 44" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+        <line x1="12" y1="8" x2="32" y2="36" stroke="#99f6e4" stroke-width="5" stroke-linecap="round"/>
+        <line x1="32" y1="8" x2="12" y2="36" stroke="#99f6e4" stroke-width="5" stroke-linecap="round"/>
+        <line x1="6" y1="2" x2="38" y2="42" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="38" y1="2" x2="6" y2="42" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">32px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 44 44" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+        <line x1="14" y1="10" x2="30" y2="34" stroke="#99f6e4" stroke-width="4" stroke-linecap="round"/>
+        <line x1="30" y1="10" x2="14" y2="34" stroke="#99f6e4" stroke-width="4" stroke-linecap="round"/>
+        <line x1="10" y1="6" x2="34" y2="38" stroke="#14b8a6" stroke-width="4" stroke-linecap="round"/>
+        <line x1="34" y1="6" x2="10" y2="38" stroke="#14b8a6" stroke-width="4" stroke-linecap="round"/>
+        <line x1="6" y1="2" x2="38" y2="42" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="38" y1="2" x2="6" y2="42" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">64px</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 44 44" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+        <line x1="14" y1="10" x2="30" y2="34" stroke="#99f6e4" stroke-width="4" stroke-linecap="round"/>
+        <line x1="30" y1="10" x2="14" y2="34" stroke="#99f6e4" stroke-width="4" stroke-linecap="round"/>
+        <line x1="10" y1="6" x2="34" y2="38" stroke="#14b8a6" stroke-width="4" stroke-linecap="round"/>
+        <line x1="34" y1="6" x2="10" y2="38" stroke="#14b8a6" stroke-width="4" stroke-linecap="round"/>
+        <line x1="6" y1="2" x2="38" y2="42" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="38" y1="2" x2="6" y2="42" stroke="#134e4a" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+      <div class="size-label">128px</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- CONCEPT E: PRAXIS PURE -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<div class="concept">
+  <div class="concept-header">
+    <h2><span class="concept-num">E.</span> Praxis Pure</h2>
+    <p>
+      A pure wordmark — no icon, no mark, just the word "Praxis" in Plus Jakarta Sans Extra Bold
+      with the X highlighted in the accent orange. The simplest possible logo. The orange X is
+      the brand mark when extracted. Relies entirely on typography and color. Confident, minimal,
+      Desmos-like clarity. The favicon is just a teal "P" or the orange "X".
+    </p>
+  </div>
+
+  <div class="context-row">
+    <div class="context-box light">
+      <svg viewBox="0 0 240 52" width="240" height="52" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#134e4a">Pra</text>
+        <text x="109" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#f97316">x</text>
+        <text x="137" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#134e4a">is</text>
+      </svg>
+    </div>
+    <div class="context-box dark">
+      <svg viewBox="0 0 240 52" width="240" height="52" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#5eead4">Pra</text>
+        <text x="109" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#f97316">x</text>
+        <text x="137" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#5eead4">is</text>
+      </svg>
+    </div>
+    <div class="context-box white">
+      <svg viewBox="0 0 240 52" width="240" height="52" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#292524">Pra</text>
+        <text x="109" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#f97316">x</text>
+        <text x="137" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#292524">is</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="size-row">
+    <div class="size-item">
+      <svg viewBox="0 0 30 40" width="16" height="21" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="34" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="38" font-weight="800" fill="#f97316">x</text>
+      </svg>
+      <div class="size-label">16px (x)</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 30 40" width="32" height="42" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="34" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="38" font-weight="800" fill="#f97316">x</text>
+      </svg>
+      <div class="size-label">32px (x)</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 48 48" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="48" height="48" rx="10" fill="#134e4a"/>
+        <text x="8" y="38" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="38" font-weight="800" fill="#f97316">x</text>
+      </svg>
+      <div class="size-label">32px (app icon)</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 240 52" width="180" height="39" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#134e4a">Pra</text>
+        <text x="109" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#f97316">x</text>
+        <text x="137" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#134e4a">is</text>
+      </svg>
+      <div class="size-label">Nav size</div>
+    </div>
+    <div class="size-item">
+      <svg viewBox="0 0 240 52" width="240" height="52" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="42" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="44" font-weight="800" fill="#134e4a">Praxis</text>
+      </svg>
+      <div class="size-label">Mono</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- COMPARISON SUMMARY -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<div class="concept">
+  <div class="concept-header">
+    <h2>Comparison Summary</h2>
+  </div>
+  <table style="width:100%; border-collapse:collapse; font-size:0.875rem;">
+    <thead>
+      <tr style="border-bottom:2px solid var(--stone-200); text-align:left;">
+        <th style="padding:12px 8px;">Concept</th>
+        <th style="padding:12px 8px;">Type</th>
+        <th style="padding:12px 8px;">Mood</th>
+        <th style="padding:12px 8px;">Favicon</th>
+        <th style="padding:12px 8px;">Scalability</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid var(--stone-200);">
+        <td style="padding:10px 8px; font-weight:600;">A. Axis</td>
+        <td style="padding:10px 8px;">Wordmark (modified X)</td>
+        <td style="padding:10px 8px;">Bold, mathematical</td>
+        <td style="padding:10px 8px;">X cross with orange dot</td>
+        <td style="padding:10px 8px;">Excellent</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--stone-200);">
+        <td style="padding:10px 8px; font-weight:600;">B. Scholar</td>
+        <td style="padding:10px 8px;">Wordmark (calligraphic X)</td>
+        <td style="padding:10px 8px;">Scholarly, human</td>
+        <td style="padding:10px 8px;">Curved X strokes</td>
+        <td style="padding:10px 8px;">Good (curves soften at tiny sizes)</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--stone-200);">
+        <td style="padding:10px 8px; font-weight:600;">C. Grid</td>
+        <td style="padding:10px 8px;">Combination mark</td>
+        <td style="padding:10px 8px;">Structured, satisfying</td>
+        <td style="padding:10px 8px;">Filled square with X — strong</td>
+        <td style="padding:10px 8px;">Excellent (contained shape)</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--stone-200);">
+        <td style="padding:10px 8px; font-weight:600;">D. Iterate</td>
+        <td style="padding:10px 8px;">Combination mark</td>
+        <td style="padding:10px 8px;">Energetic, growth</td>
+        <td style="padding:10px 8px;">Layered X — busy at 16px</td>
+        <td style="padding:10px 8px;">Moderate (simplify for small sizes)</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 8px; font-weight:600;">E. Pure</td>
+        <td style="padding:10px 8px;">Pure wordmark</td>
+        <td style="padding:10px 8px;">Minimal, confident</td>
+        <td style="padding:10px 8px;">Orange x letter — simple</td>
+        <td style="padding:10px 8px;">Excellent (typography scales naturally)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="height:64px;"></div>
+
+</body>
+</html>

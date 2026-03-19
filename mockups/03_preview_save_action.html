@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup: Preview Page with Save Test (Tutor)</title>
+<style>
+  :root {
+    --color-primary-50:#f0fdfa; --color-primary-100:#ccfbf1;
+    --color-primary-500:#14b8a6; --color-primary-700:#0f766e;
+    --color-primary-900:#134e4a;
+    --color-accent-500:#f97316; --color-accent-600:#ea580c;
+    --color-stone-100:#f5f5f4; --color-stone-200:#e7e5e4; --color-stone-300:#d6d3d1;
+    --nav-bg:#0f2b2e; --nav-text:#5eead4; --nav-link:#99f6e4;
+    --bg-page:#f0fdfa; --bg-card:#ffffff;
+    --text-primary:#292524; --text-secondary:#78716c; --text-muted:#78716c;
+    --text-on-primary:#ffffff;
+    --shadow-card:0 1px 4px rgba(0,0,0,0.06);
+    --shadow-cta-glow:0 2px 8px rgba(249,115,22,0.3);
+    --shadow-lg:0 4px 16px rgba(41,37,36,0.1);
+    --radius-md:10px; --radius-lg:14px; --radius-full:9999px;
+    --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+    --space-5:20px; --space-6:24px; --space-7:32px;
+    --font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    --font-size-xs:0.75rem; --font-size-sm:0.875rem; --font-size-base:1rem;
+    --font-size-xl:1.25rem; --font-size-2xl:1.5rem;
+    --transition-fast:150ms ease; --transition-normal:200ms ease;
+    --color-success-bg:#ecfdf5; --color-success-text:#065f46; --color-success-border:#6ee7b7;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0}
+  body{font-family:var(--font-family);background:var(--bg-page);color:var(--text-primary);line-height:1.6}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:var(--space-4) var(--space-7);background:var(--nav-bg)}
+  .nav-brand{font-size:var(--font-size-xl);font-weight:700;color:var(--nav-text)}
+  .nav-link{color:var(--nav-link);font-size:var(--font-size-sm);font-weight:500}
+
+  .summary-bar{background:#134e4a;padding:var(--space-5) var(--space-7);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-4)}
+  .summary-left{display:flex;flex-direction:column;gap:var(--space-3)}
+  .summary-title{font-size:1.5rem;font-weight:700;color:#fff;margin:0}
+  .pill-row{display:flex;gap:var(--space-3);flex-wrap:wrap}
+  .pill{background:rgba(255,255,255,0.12);color:#99f6e4;border-radius:var(--radius-full);padding:var(--space-1) var(--space-3);font-size:var(--font-size-xs);font-weight:500}
+  .summary-right{display:flex;align-items:center;gap:var(--space-3)}
+
+  .btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:var(--space-3) var(--space-6);min-height:44px;font-family:var(--font-family);font-size:var(--font-size-sm);font-weight:600;color:var(--text-on-primary);background:var(--color-accent-500);border:none;border-radius:var(--radius-lg);cursor:pointer;box-shadow:var(--shadow-cta-glow)}
+  .btn-primary:hover{background:var(--color-accent-600)}
+  .btn-save{display:inline-flex;align-items:center;justify-content:center;padding:var(--space-2) var(--space-5);min-height:40px;font-family:var(--font-family);font-size:var(--font-size-sm);font-weight:500;color:#fff;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);border-radius:var(--radius-md);cursor:pointer;transition:all var(--transition-fast);gap:var(--space-2)}
+  .btn-save:hover{background:rgba(255,255,255,0.25);border-color:rgba(255,255,255,0.5)}
+  .btn-secondary{display:inline-flex;align-items:center;justify-content:center;padding:var(--space-3) var(--space-6);min-height:44px;font-family:var(--font-family);font-size:var(--font-size-sm);font-weight:500;color:var(--color-primary-700);background:var(--bg-card);border:1.5px solid var(--color-stone-300);border-radius:var(--radius-lg);cursor:pointer}
+
+  .controls-bar{background:#fff;padding:var(--space-3) var(--space-7);border-bottom:1px solid var(--color-stone-200);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-3)}
+  .checkbox-label{display:flex;align-items:center;gap:var(--space-2);font-size:var(--font-size-sm);color:var(--text-secondary);cursor:pointer}
+
+  .questions-area{padding:var(--space-5) var(--space-7);max-width:800px;margin:0 auto}
+
+  .question-card{background:var(--bg-card);box-shadow:var(--shadow-card);border-radius:var(--radius-md);padding:var(--space-5);margin-bottom:var(--space-4);border-left:3px solid var(--color-primary-500)}
+  .question-header{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3)}
+  .question-number{display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:var(--color-primary-100);color:var(--color-primary-900);border-radius:8px;font-weight:700;font-size:var(--font-size-sm);flex-shrink:0}
+  .question-subtopic{background:var(--color-primary-50);color:var(--color-primary-700);padding:2px var(--space-2);border-radius:var(--radius-full);font-size:var(--font-size-xs);font-weight:500}
+  .question-text{font-size:var(--font-size-base);color:var(--text-primary);font-style:italic}
+
+  /* ── Save Modal ── */
+  .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:100}
+  .modal{background:var(--bg-card);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:var(--space-7);width:420px;max-width:90vw}
+  .modal h2{font-size:var(--font-size-xl);font-weight:700;color:var(--text-primary);margin-bottom:var(--space-2)}
+  .modal p{font-size:var(--font-size-sm);color:var(--text-secondary);margin-bottom:var(--space-5)}
+  .modal input[type="text"]{width:100%;padding:var(--space-3) var(--space-4);font-family:var(--font-family);font-size:var(--font-size-base);border:1.5px solid var(--color-stone-300);border-radius:var(--radius-md);margin-bottom:var(--space-5)}
+  .modal input[type="text"]:focus{border-color:var(--color-primary-500);outline:none;box-shadow:0 0 0 3px rgba(15,118,110,0.1)}
+  .modal-actions{display:flex;gap:var(--space-3);justify-content:flex-end}
+  .modal .btn-cancel{padding:var(--space-2) var(--space-5);font-family:var(--font-family);font-size:var(--font-size-sm);font-weight:500;color:var(--text-secondary);background:none;border:1.5px solid var(--color-stone-300);border-radius:var(--radius-md);cursor:pointer}
+  .modal .btn-confirm{padding:var(--space-2) var(--space-5);font-family:var(--font-family);font-size:var(--font-size-sm);font-weight:600;color:var(--text-on-primary);background:var(--color-primary-700);border:none;border-radius:var(--radius-md);cursor:pointer}
+
+  .mockup-note{background:#fffbeb;border:1px solid #fcd34d;border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) var(--space-7);font-size:var(--font-size-sm);color:#92400e}
+  .mockup-note strong{display:block;margin-bottom:var(--space-1)}
+
+  /* ── Success toast ── */
+  .toast{position:fixed;bottom:var(--space-7);left:50%;transform:translateX(-50%);background:var(--color-success-bg);color:var(--color-success-text);border:1px solid var(--color-success-border);padding:var(--space-3) var(--space-6);border-radius:var(--radius-md);font-size:var(--font-size-sm);font-weight:500;box-shadow:var(--shadow-lg);z-index:200}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-brand">ProblemGenerator</span>
+  <span class="nav-link">Dashboard</span>
+</nav>
+
+<div class="mockup-note">
+  <strong>Mockup: Preview Page with Save Test Action (Tutor View)</strong>
+  The "Save Test" button appears in the summary bar next to "Download PDF" — only for tutors.
+  Students see the exact same page without the Save button. Clicking Save opens a name modal.
+  Below the modal, a success toast confirms the save.
+</div>
+
+<!-- Summary bar -->
+<div class="summary-bar">
+  <div class="summary-left">
+    <h1 class="summary-title">Test Preview</h1>
+    <div class="pill-row">
+      <span class="pill">Topics: algebra, trigonometry</span>
+      <span class="pill">Difficulty: Hard</span>
+      <span class="pill">20 questions</span>
+    </div>
+  </div>
+  <div class="summary-right">
+    <!-- TUTOR-ONLY: Save Test button -->
+    <button class="btn-save" onclick="document.getElementById('save-modal').style.display='flex'">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Save Test
+    </button>
+    <button class="btn-primary">Download PDF</button>
+  </div>
+</div>
+
+<!-- Controls bar -->
+<div class="controls-bar">
+  <div style="display:flex;gap:var(--space-5)">
+    <label class="checkbox-label">
+      <input type="checkbox" checked style="accent-color:var(--color-primary-700)">
+      Include answers
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" style="accent-color:var(--color-primary-700)">
+      Include solutions
+    </label>
+  </div>
+  <button class="btn-secondary">Generate New Test</button>
+</div>
+
+<!-- Sample question cards -->
+<div class="questions-area">
+  <div class="question-card">
+    <div class="question-header">
+      <span class="question-number">1</span>
+      <span class="question-subtopic">Linear Equations</span>
+    </div>
+    <div class="question-text">Solve for x: 3x + 7 = 22</div>
+  </div>
+  <div class="question-card">
+    <div class="question-header">
+      <span class="question-number">2</span>
+      <span class="question-subtopic">Trig Identities</span>
+    </div>
+    <div class="question-text">Simplify: sin&sup2;(&theta;) + cos&sup2;(&theta;) &minus; 1</div>
+  </div>
+  <div class="question-card">
+    <div class="question-header">
+      <span class="question-number">3</span>
+      <span class="question-subtopic">Quadratic Equations</span>
+    </div>
+    <div class="question-text">Factor and solve: x&sup2; &minus; 5x + 6 = 0</div>
+  </div>
+</div>
+
+<!-- Save Modal -->
+<div id="save-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)this.style.display='none'">
+  <div class="modal">
+    <h2>Save Test</h2>
+    <p>Give this test a name so you can find and replay it later.</p>
+    <input type="text" placeholder="e.g., Weekly Algebra Quiz" autofocus>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="document.getElementById('save-modal').style.display='none'">Cancel</button>
+      <button class="btn-confirm" onclick="document.getElementById('save-modal').style.display='none';document.getElementById('toast').style.display='block';setTimeout(()=>document.getElementById('toast').style.display='none',3000)">Save Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- Success toast -->
+<div id="toast" class="toast" style="display:none">
+  &#10003; Test saved successfully
+</div>
+
+</body>
+</html>
