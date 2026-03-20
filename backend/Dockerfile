@@ -42,6 +42,13 @@ COPY . .
 
 # Non-root user for least-privilege security
 RUN addgroup --system app && adduser --system --ingroup app app
+RUN mkdir -p /home/app/.cache /home/app/.config /home/app/.local/share /tmp/tectonic && \
+  chown -R app:app /home/app /tmp/tectonic
+
+ENV HOME=/home/app
+ENV XDG_CACHE_HOME=/home/app/.cache
+ENV XDG_CONFIG_HOME=/home/app/.config
+ENV XDG_DATA_HOME=/home/app/.local/share
 USER app
 
 EXPOSE 8000
