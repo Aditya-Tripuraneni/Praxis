@@ -213,7 +213,8 @@ class SlopeInterceptTemplate:
 
         steps = [
             TrustedLatex(f"${p1}, \\quad m = {latex(m)}$"),
-            TrustedLatex(f"$b = {latex(b)}$"),
+            TrustedLatex("$y = mx + b$"),
+            TrustedLatex(f"$b = y - mx = {latex(y1)} - ({latex(m)})({latex(x1)}) = {latex(b)}$"),
             TrustedLatex(f"${eq_latex}$"),
         ]
 
@@ -253,6 +254,7 @@ class SlopeInterceptTemplate:
         dx = x2 - x1
         steps = [
             TrustedLatex(f"${p1}, \\quad {p2}$"),
+            TrustedLatex("$m = \\frac{y_2 - y_1}{x_2 - x_1}$"),
             TrustedLatex(f"$m = \\frac{{{latex(dy)}}}{{{latex(dx)}}} = {latex(m)}$"),
             TrustedLatex(f"${eq_latex}$"),
         ]
@@ -345,6 +347,7 @@ class ParallelPerpSlopeTemplate:
 
         steps = [
             TrustedLatex(f"${line_eq}, \\quad m = {latex(m)}$"),
+            TrustedLatex("$m_{\\perp} = -\\frac{1}{m}$"),
             TrustedLatex(f"$m_{{\\perp}} = {answer}$"),
         ]
 
@@ -403,6 +406,7 @@ class ParallelPerpSlopeTemplate:
         steps = [
             TrustedLatex(f"${p1}, \\quad {p2}, \\quad {p3}$"),
             TrustedLatex(f"$m = {latex(orig_slope)}$"),
+            TrustedLatex("$m_{\\perp} = -\\frac{1}{m}$"),
             TrustedLatex(f"$m_{{\\perp}} = {latex(perp_slope)}$"),
             TrustedLatex(f"${answer_eq}$"),
         ]
@@ -552,6 +556,7 @@ class LineEquationTemplate:
         m_frac = f"\\frac{{{latex(dy)}}}{{{latex(dx)}}}"
         steps = [
             TrustedLatex(f"${p1}, \\quad {p2}$"),
+            TrustedLatex("$m = \\frac{y_2 - y_1}{x_2 - x_1}$"),
             TrustedLatex(f"$m = {m_frac}$"),
             TrustedLatex(f"${std_form}$"),
         ]
@@ -592,6 +597,7 @@ class LineEquationTemplate:
 
         steps = [
             TrustedLatex(f"${given_eq}, \\quad P = {pt}$"),
+            TrustedLatex("$m_{\\perp} = -\\frac{1}{m}$"),
             TrustedLatex(f"$m_{{\\perp}} = {latex(m_perp)}$"),
             TrustedLatex(f"${answer_eq}$"),
         ]
