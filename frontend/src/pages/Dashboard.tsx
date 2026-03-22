@@ -6,6 +6,7 @@ import { useSubscription } from "../context/SubscriptionContext";
 import { useStats } from "../context/StatsContext";
 import { extractErrorDetail, getSavedTests, deleteSavedTest } from "../services/api";
 import type { SavedTestSummary } from "../types";
+import { formatDifficultyId, formatTopicId, formatTopicSelection } from "../utils/displayFormat";
 
 const bannerStyle: React.CSSProperties = {
   background: "linear-gradient(135deg, #134e4a 0%, #0d9488 100%)",
@@ -415,10 +416,10 @@ export default function Dashboard() {
                           <div style={{ fontWeight: 600, color: "var(--text-primary)", marginBottom: 2 }}>{test.test_name}</div>
                           <div style={{ fontSize: "var(--font-size-xs)", color: "var(--text-secondary)", display: "flex", gap: "var(--space-3)", flexWrap: "wrap" }}>
                             <span style={{ background: "var(--color-stone-100)", padding: "1px var(--space-2)", borderRadius: "var(--radius-full)" }}>
-                              {test.config.topics.join(", ")}
+                              {test.config.topics.map(formatTopicSelection).join(", ")}
                             </span>
                             <span style={{ background: "var(--color-stone-100)", padding: "1px var(--space-2)", borderRadius: "var(--radius-full)" }}>
-                              {test.config.difficulty.charAt(0).toUpperCase() + test.config.difficulty.slice(1)}
+                              {formatDifficultyId(test.config.difficulty)}
                             </span>
                             <span style={{ background: "var(--color-stone-100)", padding: "1px var(--space-2)", borderRadius: "var(--radius-full)" }}>
                               {test.question_count} questions
@@ -636,7 +637,7 @@ export default function Dashboard() {
                           minWidth: 90,
                           textTransform: "capitalize",
                         }}>
-                          {topic}
+                          {formatTopicId(topic)}
                         </span>
                         <span style={{
                           fontSize: "var(--font-size-sm)",
@@ -731,10 +732,17 @@ export default function Dashboard() {
                 <div style={{
                   flex: 1, background: "var(--bg-card)", borderRadius: "var(--radius-lg)",
                   boxShadow: "var(--shadow-card)", padding: "var(--space-6)",
-                  border: "2px solid transparent",
+                  border: "2px solid var(--color-accent-500)",
+                  position: "relative",
                 }}>
+                  <span style={{
+                    position: "absolute", top: -10, right: "var(--space-4)",
+                    background: "var(--color-accent-500)", color: "#fff",
+                    fontSize: "var(--font-size-xs)", fontWeight: 600,
+                    padding: "2px var(--space-3)", borderRadius: "var(--radius-full)",
+                  }}>BEST VALUE</span>
                   <p style={{ fontSize: "var(--font-size-lg)", fontWeight: 700, color: "var(--color-primary-900)", marginBottom: "var(--space-1)" }}>Student</p>
-                  <p style={{ fontSize: "var(--font-size-2xl)", fontWeight: 800, color: "var(--color-accent-600)", marginBottom: "var(--space-1)" }}>$5</p>
+                  <p style={{ fontSize: "var(--font-size-2xl)", fontWeight: 800, color: "var(--color-accent-600)", marginBottom: "var(--space-1)" }}>$4.99</p>
                   <p style={{ fontSize: "var(--font-size-sm)", color: "var(--text-secondary)", marginBottom: "var(--space-4)" }}>CAD / month</p>
                   <ul style={{ listStyle: "none", padding: 0, marginBottom: "var(--space-4)" }}>
                     {["Unlimited test generation", "10+ math topics", "Step-by-step solutions", "PDF downloads", "Practice streak tracking"].map((f) => (
@@ -758,14 +766,8 @@ export default function Dashboard() {
                 <div style={{
                   flex: 1, background: "var(--bg-card)", borderRadius: "var(--radius-lg)",
                   boxShadow: "var(--shadow-card)", padding: "var(--space-6)",
-                  border: "2px solid var(--color-accent-500)", position: "relative",
+                  border: "2px solid transparent",
                 }}>
-                  <span style={{
-                    position: "absolute", top: -10, right: "var(--space-4)",
-                    background: "var(--color-accent-500)", color: "#fff",
-                    fontSize: "var(--font-size-xs)", fontWeight: 600,
-                    padding: "2px var(--space-3)", borderRadius: "var(--radius-full)",
-                  }}>BEST VALUE</span>
                   <p style={{ fontSize: "var(--font-size-lg)", fontWeight: 700, color: "var(--color-primary-900)", marginBottom: "var(--space-1)" }}>Tutor</p>
                   <p style={{ fontSize: "var(--font-size-2xl)", fontWeight: 800, color: "var(--color-accent-600)", marginBottom: "var(--space-1)" }}>$12.99</p>
                   <p style={{ fontSize: "var(--font-size-sm)", color: "var(--text-secondary)", marginBottom: "var(--space-4)" }}>CAD / month</p>

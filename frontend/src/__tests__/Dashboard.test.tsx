@@ -110,12 +110,12 @@ describe("Dashboard", () => {
 
   it("shows topic mastery bars", async () => {
     renderDashboard();
-    const algebra = await screen.findByText("algebra");
+    const algebra = await screen.findByText("Algebra");
     expect(algebra).toBeInTheDocument();
-    expect(await screen.findByText("trigonometry")).toBeInTheDocument();
-    expect(await screen.findByText("calculus")).toBeInTheDocument();
-    expect(await screen.findByText("functions")).toBeInTheDocument();
-    expect(await screen.findByText("geometry")).toBeInTheDocument();
+    expect(await screen.findByText("Trigonometry")).toBeInTheDocument();
+    expect(await screen.findByText("Calculus")).toBeInTheDocument();
+    expect(await screen.findByText("Functions")).toBeInTheDocument();
+    expect(await screen.findByText("Geometry")).toBeInTheDocument();
   });
 
   it("shows start your streak when streak is 0", async () => {

@@ -84,33 +84,48 @@ describe("Generate", () => {
     expect(btn).toBeDisabled();
   });
 
-  it("shows validation error when generating with no topics selected", async () => {
+  it("keeps generate disabled when count is 0", async () => {
     renderGenerate();
     await screen.findByText(/configure your test/i);
 
-    // Force-enable the button by selecting a topic then deselecting, or just click the disabled button
-    // Actually the button is disabled, so let's test the validation through the path:
-    // Select a topic, set count to invalid, then generate
-    // First, expand Algebra and select the subtopic
+    // Select a topic first so only count validation controls button state
     const user = userEvent.setup();
     const algebraHeader = screen.getAllByText("Algebra")[0];
     await user.click(algebraHeader);
 
-    // Now select the subtopic checkbox
     const linearEqCheckbox = await screen.findByLabelText(
       /select all algebra subtopics/i
     );
     await user.click(linearEqCheckbox);
 
-    // Now change question count to invalid value (e.g., 0 via clearing and typing)
+    // Count 0 is invalid under the new 1-50 range
     const countInput = screen.getByLabelText(/number of questions/i);
     await user.clear(countInput);
-    await user.type(countInput, "3");
+    await user.type(countInput, "0");
 
-    // Button should be enabled since a topic is selected, but count is invalid
     const btn = screen.getByRole("button", { name: /generate test/i });
-    // Count is 3 which is < 5, so canGenerate should be false
     expect(btn).toBeDisabled();
+  });
+
+  it("enables generate when count is 1 and a topic is selected", async () => {
+    renderGenerate();
+    await screen.findByText(/configure your test/i);
+
+    const user = userEvent.setup();
+    const algebraHeader = screen.getAllByText("Algebra")[0];
+    await user.click(algebraHeader);
+
+    const selectAllCheckbox = await screen.findByLabelText(
+      /select all algebra subtopics/i
+    );
+    await user.click(selectAllCheckbox);
+
+    const countInput = screen.getByLabelText(/number of questions/i);
+    await user.clear(countInput);
+    await user.type(countInput, "1");
+
+    const btn = screen.getByRole("button", { name: /generate test/i });
+    expect(btn).toBeEnabled();
   });
 
   it("allows changing difficulty via radio buttons", async () => {

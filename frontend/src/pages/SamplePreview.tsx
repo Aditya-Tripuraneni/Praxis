@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { QuestionList } from '../components/TestPreview';
 import { fetchSampleTest } from '../services/api';
 import type { TestResponse } from '../types';
+import { formatDifficultyId, formatTopicId } from '../utils/displayFormat';
 
 const pageStyle: React.CSSProperties = {
   paddingBottom: 'var(--space-11)',
@@ -157,9 +158,9 @@ export default function SamplePreview() {
       <div style={contentStyle}>
         <div style={badgeRowStyle}>
           {[...new Set(test.questions.map(q => q.topic))].map(topic => (
-            <span key={topic} style={badgeStyle}>{topic}</span>
+            <span key={topic} style={badgeStyle}>{formatTopicId(topic)}</span>
           ))}
-          <span style={badgeStyle}>{test.config.difficulty}</span>
+          <span style={badgeStyle}>{formatDifficultyId(test.config.difficulty)}</span>
         </div>
 
         <QuestionList questions={test.questions} />
@@ -175,7 +176,7 @@ export default function SamplePreview() {
             className="btn-primary"
             onClick={() => navigate('/register')}
           >
-            Sign Up — $5/month
+            Sign Up — $4.99/month
           </button>
         </div>
       </div>

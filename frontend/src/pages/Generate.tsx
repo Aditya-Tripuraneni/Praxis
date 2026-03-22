@@ -59,7 +59,7 @@ export default function Generate() {
   const [topics, setTopics] = useState<TopicInfo[]>([]);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [difficulty, setDifficulty] = useState('medium');
-  const [count, setCount] = useState(20);
+  const [count, setCount] = useState<number | null>(20);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -90,8 +90,8 @@ export default function Generate() {
       setError('Please select at least one topic or subtopic.');
       return;
     }
-    if (count < 5 || count > 50) {
-      setError('Question count must be between 5 and 50.');
+    if (count === null || !Number.isInteger(count) || count < 1 || count > 50) {
+      setError('Question count must be between 1 and 50.');
       return;
     }
 
@@ -122,7 +122,13 @@ export default function Generate() {
     );
   }
 
-  const canGenerate = selectedTopics.length > 0 && count >= 5 && count <= 50 && !generating;
+  const canGenerate =
+    selectedTopics.length > 0 &&
+    count !== null &&
+    Number.isInteger(count) &&
+    count >= 1 &&
+    count <= 50 &&
+    !generating;
 
   return (
     <section>

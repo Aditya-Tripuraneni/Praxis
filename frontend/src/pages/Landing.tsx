@@ -294,10 +294,17 @@ export default function Landing() {
           <div className="animate-fade-in card-hover" style={{
             flex: '1 1 280px', maxWidth: 320, background: '#ffffff', borderRadius: 'var(--radius-lg)',
             boxShadow: 'var(--shadow-card)', padding: 'var(--space-6)',
-            border: '2px solid transparent',
+            border: '2px solid var(--color-accent-500)',
+            position: 'relative',
           }}>
+            <span style={{
+              position: 'absolute', top: -10, right: 'var(--space-4)',
+              background: 'var(--color-accent-500)', color: '#fff',
+              fontSize: 'var(--font-size-xs)', fontWeight: 600,
+              padding: '2px var(--space-3)', borderRadius: 'var(--radius-full)',
+            }}>BEST VALUE</span>
             <p style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, color: 'var(--color-primary-900)', marginBottom: 'var(--space-1)' }}>Student</p>
-            <div style={priceStyle}>$5<span style={{ fontSize: 'var(--font-size-lg)', fontWeight: 500 }}>/mo</span></div>
+            <div style={priceStyle}>$4.99<span style={{ fontSize: 'var(--font-size-lg)', fontWeight: 500 }}>/mo</span></div>
             <p style={priceSubStyle}>CAD. Cancel anytime.</p>
             <div style={pricingFeaturesStyle}>
               {[
@@ -321,14 +328,8 @@ export default function Landing() {
           <div className="animate-fade-in card-hover" style={{
             flex: '1 1 280px', maxWidth: 320, background: '#ffffff', borderRadius: 'var(--radius-lg)',
             boxShadow: 'var(--shadow-card)', padding: 'var(--space-6)',
-            border: '2px solid var(--color-accent-500)', position: 'relative',
+            border: '2px solid transparent',
           }}>
-            <span style={{
-              position: 'absolute', top: -10, right: 'var(--space-4)',
-              background: 'var(--color-accent-500)', color: '#fff',
-              fontSize: 'var(--font-size-xs)', fontWeight: 600,
-              padding: '2px var(--space-3)', borderRadius: 'var(--radius-full)',
-            }}>BEST VALUE</span>
             <p style={{ fontSize: 'var(--font-size-lg)', fontWeight: 700, color: 'var(--color-primary-900)', marginBottom: 'var(--space-1)' }}>Tutor</p>
             <div style={priceStyle}>$12.99<span style={{ fontSize: 'var(--font-size-lg)', fontWeight: 500 }}>/mo</span></div>
             <p style={priceSubStyle}>CAD. Cancel anytime.</p>

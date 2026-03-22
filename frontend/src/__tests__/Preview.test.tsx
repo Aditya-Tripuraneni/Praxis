@@ -49,7 +49,7 @@ describe("Preview", () => {
   it("renders topic metadata", async () => {
     renderPreview();
     await screen.findByText(/test preview/i);
-    // The config has topics: ["algebra"] => displayed as "Topics: algebra"
+    // The config has topics: ["algebra"] => displayed as "Topics: Algebra"
     expect(screen.getByText(/topics: algebra/i)).toBeInTheDocument();
   });
 
@@ -178,9 +178,9 @@ describe("Preview", () => {
     renderPreview();
     await screen.findByText("Q1");
     // The QuestionCard renders topic and difficulty as tags
-    expect(screen.getByText("algebra")).toBeInTheDocument();
-    expect(screen.getByText("easy")).toBeInTheDocument();
-    expect(screen.getByText("linear equations")).toBeInTheDocument();
+    expect(screen.getByText("Algebra")).toBeInTheDocument();
+    expect(screen.getByText("Easy")).toBeInTheDocument();
+    expect(screen.getByText("Linear Equations")).toBeInTheDocument();
   });
 
   it("shows Include solutions checkbox when questions have steps", async () => {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MathRenderer } from '../MathRenderer';
 import type { QuestionResponse } from '../../types';
+import { formatDifficultyId, formatSubtopicId, formatTopicId } from '../../utils/displayFormat';
 
 interface QuestionCardProps {
   question: QuestionResponse;
@@ -129,9 +130,9 @@ export default function QuestionCard({ question, number }: QuestionCardProps) {
       <div style={headerStyle}>
         <span style={numberStyle}>Q{number}</span>
         <div style={metaStyle}>
-          <span style={tagStyle}>{question.topic}</span>
-          <span style={tagStyle}>{question.difficulty}</span>
-          {question.subtopic && <span style={tagStyle}>{question.subtopic.replace(/_/g, " ")}</span>}
+          <span style={tagStyle}>{formatTopicId(question.topic)}</span>
+          <span style={tagStyle}>{formatDifficultyId(question.difficulty)}</span>
+          {question.subtopic && <span style={tagStyle}>{formatSubtopicId(question.subtopic)}</span>}
         </div>
       </div>
 
