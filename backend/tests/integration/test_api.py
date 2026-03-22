@@ -88,6 +88,14 @@ class TestGenerate:
         )
         assert r.status_code == 422
 
+    async def test_count_min_boundary_one_is_valid(self, auth_client):
+        r = await auth_client.post(
+            "/api/tests/generate",
+            json={"topics": ["algebra"], "difficulty": "easy", "count": 1},
+        )
+        assert r.status_code == 200
+        assert len(r.json()["questions"]) == 1
+
     async def test_empty_topics(self, auth_client):
         r = await auth_client.post(
             "/api/tests/generate",

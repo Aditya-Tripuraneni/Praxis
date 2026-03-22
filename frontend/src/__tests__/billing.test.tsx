@@ -256,7 +256,7 @@ describe("Dashboard - Not Subscribed", () => {
 
   it("shows promo card with price", async () => {
     renderNotSubscribedDashboard();
-    const price = await screen.findByText("$5");
+    const price = await screen.findByText("$4.99");
     expect(price).toBeInTheDocument();
   });
 
@@ -271,7 +271,7 @@ describe("Dashboard - Not Subscribed", () => {
   it("does not show generate button", async () => {
     renderNotSubscribedDashboard();
     // Wait for the plan cards to appear (meaning subscription loaded)
-    await screen.findByText("$5");
+    await screen.findByText("$4.99");
     expect(screen.queryByRole("button", { name: /generate new test/i })).not.toBeInTheDocument();
   });
 

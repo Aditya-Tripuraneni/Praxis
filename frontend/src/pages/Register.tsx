@@ -179,7 +179,7 @@ export default function Register() {
       </div>
       <div style={pricingCardStyle}>
         <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "#ffffff" }}>
-          $5/month
+          $4.99/month
         </div>
         <div style={{ fontSize: "0.75rem", color: "#99f6e4", marginTop: "var(--space-1)" }}>
           Cancel anytime

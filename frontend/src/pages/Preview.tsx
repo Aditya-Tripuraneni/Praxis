@@ -5,6 +5,7 @@ import { getTest, downloadPdf, getUserStats, saveTimerDuration } from '../servic
 import { useSubscription } from '../context/SubscriptionContext';
 import { saveTest } from '../services/api';
 import type { TestResponse } from '../types';
+import { formatDifficultyId, formatTopicSelection } from '../utils/displayFormat';
 
 const sectionStyle: React.CSSProperties = {
   marginTop: 'calc(-1 * var(--space-8))',
@@ -225,8 +226,8 @@ export default function Preview() {
 
   if (!test) return null;
 
-  const topicsList = test.config.topics.join(', ');
-  const difficultyLabel = test.config.difficulty.charAt(0).toUpperCase() + test.config.difficulty.slice(1);
+  const topicsList = test.config.topics.map(formatTopicSelection).join(', ');
+  const difficultyLabel = formatDifficultyId(test.config.difficulty);
 
   return (
     <section className="page-enter" style={sectionStyle}>

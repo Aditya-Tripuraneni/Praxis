@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
+
 interface QuestionCountProps {
-  value: number;
-  onChange: (value: number) => void;
+  value: number | null;
+  onChange: (value: number | null) => void;
 }
 
 const containerStyle: React.CSSProperties = {
@@ -22,6 +24,14 @@ const hintStyle: React.CSSProperties = {
 };
 
 export default function QuestionCount({ value, onChange }: QuestionCountProps) {
+  const [inputValue, setInputValue] = useState(value !== null ? String(value) : "");
+
+  useEffect(() => {
+    setInputValue(value !== null ? String(value) : "");
+  }, [value]);
+
+  const isInvalid = value === null || value < 1 || value > 50;
+
   return (
     <div style={containerStyle}>
       <label htmlFor="question-count" style={labelStyle}>
@@ -30,26 +40,62 @@ export default function QuestionCount({ value, onChange }: QuestionCountProps) {
       <input
         id="question-count"
         type="number"
-        min={5}
+        min={1}
         max={50}
-        value={value}
+        step={1}
+        inputMode="numeric"
+        value={inputValue}
         onChange={(e) => {
           const raw = e.target.value;
-          if (raw === "") return;
-          const num = parseInt(raw, 10);
-          if (!isNaN(num)) {
-            onChange(num);
+          setInputValue(raw);
+
+          if (raw === "") {
+            onChange(null);
+            return;
           }
+
+          if (!/^\d+$/.test(raw)) {
+            onChange(null);
+            return;
+          }
+
+          const parsed = Number(raw);
+          if (!Number.isInteger(parsed)) {
+            onChange(null);
+            return;
+          }
+
+          onChange(parsed);
+        }}
+        onBlur={() => {
+          if (inputValue === "") return;
+          if (!/^\d+$/.test(inputValue)) {
+            setInputValue("");
+            onChange(null);
+            return;
+          }
+
+          const parsed = Number(inputValue);
+          if (!Number.isInteger(parsed)) {
+            setInputValue("");
+            onChange(null);
+            return;
+          }
+
+          const clamped = Math.min(50, Math.max(1, parsed));
+          setInputValue(String(clamped));
+          onChange(clamped);
         }}
         className="input"
         style={{ width: "120px" }}
         aria-describedby="count-hint"
+        aria-invalid={isInvalid}
       />
       <span
         id="count-hint"
         style={hintStyle}
       >
-        5 - 50
+        1 - 50
       </span>
     </div>
   );
