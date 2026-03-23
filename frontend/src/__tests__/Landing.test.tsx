@@ -31,4 +31,5 @@ describe("Landing", () => {
     expect(screen.getByText("Difficulty Levels")).toBeInTheDocument();
     expect(screen.getByText("Instant PDF")).toBeInTheDocument();
   });
+
 });
