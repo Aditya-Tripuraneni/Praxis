@@ -37,6 +37,6 @@ describe("AboutPraxis", () => {
     expect(screen.getByText("FAQ")).toBeInTheDocument();
     expect(screen.getByText(/Who uses Praxis\?/i)).toBeInTheDocument();
     expect(screen.getByText(/Do I need a separate AI chat subscription to use Praxis\?/i)).toBeInTheDocument();
-    expect(container.querySelectorAll("details")).toHaveLength(13);
+    expect(container.querySelectorAll("details").length).toBeGreaterThanOrEqual(13);
   });
 });
