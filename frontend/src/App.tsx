@@ -14,6 +14,7 @@ import OAuthCallback from "./pages/OAuthCallback";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import CheckoutCancel from "./pages/CheckoutCancel";
 import SamplePreview from "./pages/SamplePreview";
+import AboutPraxis from "./pages/AboutPraxis";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import SavedTestReplay from "./pages/SavedTestReplay";
@@ -47,6 +48,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/sample-preview" element={<SamplePreview />} />
+        <Route path="/about-praxis" element={<AboutPraxis />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/auth/reset-password" element={<ResetPassword />} />
         <Route path="/auth/verify-success" element={<VerifySuccess />} />
