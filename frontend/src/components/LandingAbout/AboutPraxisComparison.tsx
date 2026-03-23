@@ -8,7 +8,7 @@ export default function AboutPraxisComparison({ content }: AboutPraxisComparison
   return (
     <section className="about-praxis-section about-praxis-contrast" aria-label="Before and after Praxis">
       <div className="about-praxis-contrast-head">
-        <span>{content.heading}</span>
+        <h2>{content.heading}</h2>
       </div>
 
       <div className="about-praxis-contrast-grid">
