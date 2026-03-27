@@ -1,4 +1,4 @@
-import { KpiItem } from "./types";
+import type { KpiItem } from "./types";
 
 interface AboutPraxisHeroProps {
   eyebrow: string;
