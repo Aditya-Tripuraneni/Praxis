@@ -1,4 +1,4 @@
-import { ValueIndicator } from "./types";
+import type { ValueIndicator } from "./types";
 
 interface AboutPraxisValueIndicatorsProps {
   items: ValueIndicator[];
