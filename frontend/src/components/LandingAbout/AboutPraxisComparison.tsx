@@ -1,4 +1,4 @@
-import { ComparisonContent } from "./types";
+import type { ComparisonContent } from "./types";
 
 interface AboutPraxisComparisonProps {
   content: ComparisonContent;
