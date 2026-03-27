@@ -1,4 +1,4 @@
-import { StudyStep } from "./types";
+import type { StudyStep } from "./types";
 
 interface AboutPraxisStudyFlowProps {
   title: string;
