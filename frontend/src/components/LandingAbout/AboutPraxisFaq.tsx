@@ -1,4 +1,4 @@
-import { FaqItem } from "./types";
+import type { FaqItem } from "./types";
 
 interface AboutPraxisFaqProps {
   items: FaqItem[];
