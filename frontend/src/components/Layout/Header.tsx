@@ -50,6 +50,12 @@ export default function Header() {
         >
           Generate
         </NavLink>
+        <NavLink
+          to="/about-praxis"
+          style={({ isActive }) => (isActive ? linkActive : linkBase)}
+        >
+          About
+        </NavLink>
         {!isAuthenticated && (
           <NavLink
             to="/sample-preview"
