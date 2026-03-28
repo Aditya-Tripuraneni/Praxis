@@ -219,9 +219,7 @@ class PdfService:
         diff = config.get("difficulty", "")
         cnt = config.get("count", len(questions))
         story.append(Paragraph(f"Date: {date.today().isoformat()} | Test ID: {test_id}", info))
-        story.append(
-            Paragraph(f"Topics: {topics_str} | Difficulty: {diff} | Questions: {cnt}", info)
-        )
+        story.append(Paragraph(f"Difficulty: {diff} | Questions: {cnt}", info))
         story.append(Spacer(1, 18))
         story.append(Paragraph("Questions", styles["Heading2"]))
         story.append(Spacer(1, 8))
@@ -263,15 +261,15 @@ class PdfService:
                     story.append(_latex_image(_get(q, "answer_latex", "")))
                 story.append(Spacer(1, 10))
 
-        if include_topics:
-            story.append(Spacer(1, 18))
-            story.append(Paragraph("Topics", styles["Heading3"]))
-            story.append(Spacer(1, 4))
-            story.append(Paragraph(topics_str, info))
-
         def _page_num(canvas, doc):
             canvas.saveState()
             canvas.setFont("Helvetica", 9)
+            if include_topics and topics_str:
+                footer_topics = f"Topics: {topics_str}"
+                # Keep footer text to one line to avoid colliding with content.
+                if len(footer_topics) > 170:
+                    footer_topics = footer_topics[:167].rstrip() + "..."
+                canvas.drawString(0.75 * inch, 0.35 * inch, footer_topics)
             canvas.drawCentredString(doc.pagesize[0] / 2, 0.5 * inch, f"Page {doc.page}")
             canvas.restoreState()
 
