@@ -260,10 +260,15 @@ export async function getTest(id: string): Promise<TestResponse> {
 export async function downloadPdf(
   id: string,
   includeAnswers: boolean,
-  includeSolutions: boolean = false
+  includeSolutions: boolean = false,
+  includeTopics: boolean = false
 ): Promise<void> {
   const response = await client.get(`/tests/${id}/pdf`, {
-    params: { include_answers: includeAnswers, include_solutions: includeSolutions },
+    params: {
+      include_answers: includeAnswers,
+      include_solutions: includeSolutions,
+      include_topics: includeTopics,
+    },
     responseType: "blob",
   });
 

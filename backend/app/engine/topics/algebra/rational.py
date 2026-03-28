@@ -26,6 +26,7 @@ from sympy import (
 )
 
 from app.engine.registry import register_template
+from app.engine.solution_wording import explain_steps
 from app.engine.types import (
     ALL_DIFFICULTIES,
     Difficulty,
@@ -87,7 +88,7 @@ def _make_problem(
         topic=Topic.ALGEBRA,
         difficulty=difficulty,
         subtopic=subtopic,
-        solution_steps=tuple(steps),
+        solution_steps=explain_steps(steps, subtopic=subtopic, difficulty=difficulty),
         metadata=metadata or {},
     )
 
