@@ -3,6 +3,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
+\usepackage{needspace}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -18,7 +19,7 @@
 \vspace{0.2cm}
 
 \noindent Date: << date >> \hfill Test ID: << test_id|latex_escape >> \\
-\noindent Topics: << topics|latex_escape >> \hfill Difficulty: << difficulty|latex_escape >> \hfill Questions: << count >>
+\noindent Difficulty: << difficulty|latex_escape >> \hfill Questions: << count >>
 
 \vspace{0.5cm}
 \noindent\rule{\textwidth}{0.4pt}
@@ -26,9 +27,16 @@
 
 \section*{Questions}
 
-\begin{enumerate}[leftmargin=2em, itemsep=12pt]
+\begin{enumerate}[leftmargin=2em, itemsep=10pt]
 <% for q in questions %>
-\item << q.question_latex >>
+\Needspace{<< question_block_needspace_lines >>\baselineskip}
+\item
+\begin{samepage}
+<< q.question_latex >>
+<% if not loop.last %>
+\vspace*{<< question_write_space_pt >>pt}
+<% endif %>
+\end{samepage}
 <% endfor %>
 \end{enumerate}
 
@@ -68,6 +76,13 @@
 <% endif %>
 <% endfor %>
 \end{enumerate}
+<% endif %>
+
+<% if include_topics %>
+\vfill
+\noindent\rule{\textwidth}{0.4pt}
+\vspace{0.1cm}
+\noindent {\small \textbf{Topics:} << topics|latex_escape >>}
 <% endif %>
 
 \end{document}

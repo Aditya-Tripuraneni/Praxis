@@ -35,8 +35,13 @@ _pdf_service = PdfService()
 _pdf_executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="pdf")
 
 
-def _cache_key(test_id: str, include_answers: bool, include_solutions: bool) -> str:
-    return f"{test_id}:{include_answers}:{include_solutions}"
+def _cache_key(
+    test_id: str,
+    include_answers: bool,
+    include_solutions: bool,
+    include_topics: bool,
+) -> str:
+    return f"{test_id}:{include_answers}:{include_solutions}:{include_topics}"
 
 
 def _generate_pdf_sync(
@@ -45,9 +50,17 @@ def _generate_pdf_sync(
     test_id: str,
     include_answers: bool,
     include_solutions: bool,
+    include_topics: bool,
 ) -> bytes:
     """Synchronous PDF generation — runs in the dedicated thread pool."""
-    buf = _pdf_service.generate(questions, config, test_id, include_answers, include_solutions)
+    buf = _pdf_service.generate(
+        questions,
+        config,
+        test_id,
+        include_answers,
+        include_solutions,
+        include_topics,
+    )
     return buf.read()
 
 
@@ -58,13 +71,14 @@ async def download_pdf(
     test_id: str,
     include_answers: bool = True,
     include_solutions: bool = False,
+    include_topics: bool = False,
     auth: AuthenticatedUser = Depends(require_active_subscription),
 ):
     test = generation_service.get_test_for_user(test_id, auth.profile.id)
     if test is None:
         raise HTTPException(status_code=404, detail="Test not found")
 
-    key = _cache_key(test_id, include_answers, include_solutions)
+    key = _cache_key(test_id, include_answers, include_solutions, include_topics)
 
     with _pdf_cache_lock:
         cached = _pdf_cache.get(key)
@@ -80,6 +94,7 @@ async def download_pdf(
                 test.test_id,
                 include_answers,
                 include_solutions,
+                include_topics,
             )
         except Exception:
             logger.exception("PDF generation failed for test_id=%s", test_id)

@@ -14,6 +14,7 @@ import sympy
 from sympy import Eq, Rational, Symbol, latex, sqrt
 
 from app.engine.registry import register_template
+from app.engine.solution_wording import explain_steps
 from app.engine.types import (
     ALL_DIFFICULTIES,
     Difficulty,
@@ -83,7 +84,7 @@ class LinearEquationTemplate:
             topic=Topic.ALGEBRA,
             difficulty=difficulty,
             subtopic=self.subtopic,
-            solution_steps=tuple(steps),
+            solution_steps=explain_steps(steps, subtopic=self.subtopic, difficulty=difficulty),
         )
 
 
@@ -144,7 +145,7 @@ class TwoStepLinearTemplate:
             topic=Topic.ALGEBRA,
             difficulty=difficulty,
             subtopic=self.subtopic,
-            solution_steps=tuple(steps),
+            solution_steps=explain_steps(steps, subtopic=self.subtopic, difficulty=difficulty),
         )
 
 
@@ -190,7 +191,7 @@ class QuadraticFactoringTemplate:
             topic=Topic.ALGEBRA,
             difficulty=difficulty,
             subtopic=self.subtopic,
-            solution_steps=tuple(steps),
+            solution_steps=explain_steps(steps, subtopic=self.subtopic, difficulty=difficulty),
         )
 
 
@@ -275,7 +276,7 @@ class QuadraticFormulaTemplate:
             topic=Topic.ALGEBRA,
             difficulty=difficulty,
             subtopic=self.subtopic,
-            solution_steps=tuple(steps),
+            solution_steps=explain_steps(steps, subtopic=self.subtopic, difficulty=difficulty),
         )
 
 
@@ -284,6 +285,113 @@ def _is_perfect_square(n: int) -> bool:
         return False
     root = int(math.isqrt(n))
     return root * root == n
+
+
+# ---------------------------------------------------------------------------
+# T010c — Quadratic Form Conversion
+# ---------------------------------------------------------------------------
+
+
+def _sample_quadratic_forms(
+    difficulty: Difficulty, rng: random.Random
+) -> tuple[sympy.Expr, sympy.Expr, sympy.Expr, tuple[sympy.Rational | int, sympy.Rational | int]]:
+    """Build equivalent standard/vertex/factored forms from sampled roots."""
+    if difficulty == Difficulty.EASY:
+        a = 1
+        r1 = rng.randint(-6, 6)
+        r2 = rng.randint(-6, 6)
+    elif difficulty == Difficulty.MEDIUM:
+        a = rng.choice([1, 2, 3, -1, -2])
+        r1 = rng.randint(-8, 8)
+        r2 = rng.randint(-8, 8)
+    else:
+        a = rng.choice([1, 2, 3, 4, -1, -2, -3])
+        r1 = Rational(_nonzero_int(rng, 1, 12), rng.choice([1, 2, 3]))
+        r2 = Rational(_nonzero_int(rng, 1, 12), rng.choice([1, 2, 3]))
+
+    if r1 == r2:
+        bump = Rational(1, 2) if difficulty == Difficulty.HARD else 1
+        r2 = r2 + bump
+
+    roots = tuple(sorted((r1, r2), key=lambda r: float(sympy.N(r))))
+    r1s, r2s = roots
+
+    factored_expr = sympy.Mul(sympy.Integer(a), (x - r1s), (x - r2s), evaluate=False)
+    standard_expr = sympy.expand(sympy.Integer(a) * (x - r1s) * (x - r2s))
+
+    h = sympy.simplify((r1s + r2s) / 2)
+    k = sympy.simplify(standard_expr.subs(x, h))
+    vertex_core = sympy.Mul(
+        sympy.Integer(a),
+        sympy.Pow(x - h, 2, evaluate=False),
+        evaluate=False,
+    )
+    vertex_expr = sympy.Add(vertex_core, k, evaluate=False)
+
+    return standard_expr, vertex_expr, factored_expr, roots
+
+
+@register_template
+class QuadraticFormConversionTemplate:
+    topic = Topic.ALGEBRA
+    subtopic = "quadratic_form_conversion"
+    supported_difficulties = ALL_DIFFICULTIES
+
+    def generate(self, difficulty: Difficulty, rng: random.Random) -> GeneratedProblem:
+        standard_expr, vertex_expr, factored_expr, roots = _sample_quadratic_forms(difficulty, rng)
+
+        variants = [
+            ("standard", "vertex"),
+            ("vertex", "standard"),
+            ("standard", "factored"),
+            ("factored", "standard"),
+            ("vertex", "factored"),
+            ("factored", "vertex"),
+        ]
+        source_form, target_form = rng.choice(variants)
+
+        forms = {
+            "standard": standard_expr,
+            "vertex": vertex_expr,
+            "factored": factored_expr,
+        }
+
+        source_expr = forms[source_form]
+        target_expr = forms[target_form]
+
+        prompt = (
+            f"Convert from {source_form} form to {target_form} form: "
+            f"$f(x) = {latex(source_expr)}$."
+        )
+        answer = f"$f(x) = {latex(target_expr)}$"
+
+        r1, r2 = roots
+        h = sympy.simplify((r1 + r2) / 2)
+        k = sympy.simplify(standard_expr.subs(x, h))
+
+        steps = [TrustedLatex(f"$f(x) = {latex(source_expr)}$")]
+        if target_form == "vertex":
+            steps.append(TrustedLatex(f"$h = {latex(h)},\\; k = {latex(k)}$"))
+        elif target_form == "factored":
+            steps.append(TrustedLatex(f"$r_1 = {latex(r1)},\\; r_2 = {latex(r2)}$"))
+        else:
+            steps.append(TrustedLatex(f"${latex(sympy.expand(source_expr))}$"))
+        steps.append(TrustedLatex(answer))
+
+        return GeneratedProblem(
+            question_latex=TrustedLatex(prompt),
+            answer_latex=TrustedLatex(answer),
+            topic=Topic.ALGEBRA,
+            difficulty=difficulty,
+            subtopic=self.subtopic,
+            metadata={
+                "variant": f"{source_form}_to_{target_form}",
+                "standard_expr": str(sympy.expand(standard_expr)),
+                "vertex_expr": str(sympy.expand(vertex_expr)),
+                "factored_expr": str(sympy.expand(factored_expr)),
+            },
+            solution_steps=explain_steps(steps, subtopic=self.subtopic, difficulty=difficulty),
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -333,7 +441,7 @@ class PolynomialAddSubTemplate:
             topic=Topic.ALGEBRA,
             difficulty=difficulty,
             subtopic=self.subtopic,
-            solution_steps=tuple(steps),
+            solution_steps=explain_steps(steps, subtopic=self.subtopic, difficulty=difficulty),
         )
 
 
@@ -397,7 +505,7 @@ class PolynomialMultiplyTemplate:
             topic=Topic.ALGEBRA,
             difficulty=difficulty,
             subtopic=self.subtopic,
-            solution_steps=tuple(steps),
+            solution_steps=explain_steps(steps, subtopic=self.subtopic, difficulty=difficulty),
         )
 
 
@@ -470,7 +578,7 @@ class SystemOf2LinearTemplate:
             topic=Topic.ALGEBRA,
             difficulty=difficulty,
             subtopic=self.subtopic,
-            solution_steps=tuple(steps),
+            solution_steps=explain_steps(steps, subtopic=self.subtopic, difficulty=difficulty),
         )
 
 
@@ -535,7 +643,7 @@ class ExponentSimplifyTemplate:
             topic=Topic.ALGEBRA,
             difficulty=difficulty,
             subtopic=self.subtopic,
-            solution_steps=tuple(steps),
+            solution_steps=explain_steps(steps, subtopic=self.subtopic, difficulty=difficulty),
         )
 
 
@@ -604,5 +712,5 @@ class RadicalSimplifyTemplate:
             topic=Topic.ALGEBRA,
             difficulty=difficulty,
             subtopic=self.subtopic,
-            solution_steps=tuple(steps),
+            solution_steps=explain_steps(steps, subtopic=self.subtopic, difficulty=difficulty),
         )

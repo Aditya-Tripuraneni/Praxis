@@ -10,6 +10,7 @@ SUBTOPIC_DISPLAY_NAMES: dict[str, str] = {
     "two_step_linear": "Two-Step Linear Equations",
     "quadratic_factoring": "Quadratic Factoring",
     "quadratic_formula": "Quadratic Formula",
+    "quadratic_form_conversion": "Quadratic Form Conversion",
     "polynomial_add_sub": "Polynomial Addition & Subtraction",
     "polynomial_multiply": "Polynomial Multiplication",
     "systems_of_equations": "Systems of Equations",
