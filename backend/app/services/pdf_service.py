@@ -22,6 +22,10 @@ from jinja2 import Environment, FileSystemLoader
 logger = logging.getLogger(__name__)
 
 _TEMPLATE_DIR = Path(__file__).parent / "templates"
+_MM_TO_PT = 72.0 / 25.4
+_QUESTION_WRITE_SPACE_MM = 16.0
+_QUESTION_WRITE_SPACE_PT = int(round(_QUESTION_WRITE_SPACE_MM * _MM_TO_PT))
+_QUESTION_BLOCK_NEEDSPACE_LINES = 8
 
 # Characters that must be escaped in LaTeX text mode
 _LATEX_SPECIAL = {
@@ -74,14 +78,25 @@ class PdfService:
         test_id: str,
         include_answers: bool = True,
         include_solutions: bool = False,
+        include_topics: bool = False,
     ) -> io.BytesIO:
         if _tectonic_available():
             return self._generate_tectonic(
-                questions, config, test_id, include_answers, include_solutions
+                questions,
+                config,
+                test_id,
+                include_answers,
+                include_solutions,
+                include_topics,
             )
         logger.warning("Tectonic not found, using matplotlib fallback")
         return self._generate_fallback(
-            questions, config, test_id, include_answers, include_solutions
+            questions,
+            config,
+            test_id,
+            include_answers,
+            include_solutions,
+            include_topics,
         )
 
     def _generate_tectonic(
@@ -91,6 +106,7 @@ class PdfService:
         test_id: str,
         include_answers: bool,
         include_solutions: bool,
+        include_topics: bool,
     ) -> io.BytesIO:
         t0 = time.perf_counter()
 
@@ -101,6 +117,8 @@ class PdfService:
             topics=", ".join(t.replace("_", " ").title() for t in config.get("topics", [])),
             difficulty=str(config.get("difficulty", "")),
             count=config.get("count", len(questions)),
+            question_write_space_pt=_QUESTION_WRITE_SPACE_PT,
+            question_block_needspace_lines=_QUESTION_BLOCK_NEEDSPACE_LINES,
             questions=[
                 {
                     "question_latex": _get(q, "question_latex", ""),
@@ -111,6 +129,7 @@ class PdfService:
             ],
             include_answers=include_answers,
             include_solutions=include_solutions,
+            include_topics=include_topics,
         )
         t1 = time.perf_counter()
 
@@ -155,6 +174,7 @@ class PdfService:
         test_id: str,
         include_answers: bool,
         include_solutions: bool,
+        include_topics: bool,
     ) -> io.BytesIO:
         """matplotlib + ReportLab fallback when Tectonic is unavailable."""
         from PIL import Image as PILImage
@@ -163,6 +183,7 @@ class PdfService:
         from reportlab.lib.units import inch
         from reportlab.platypus import (
             Image,
+            KeepTogether,
             PageBreak,
             Paragraph,
             SimpleDocTemplate,
@@ -198,18 +219,22 @@ class PdfService:
         diff = config.get("difficulty", "")
         cnt = config.get("count", len(questions))
         story.append(Paragraph(f"Date: {date.today().isoformat()} | Test ID: {test_id}", info))
-        story.append(
-            Paragraph(f"Topics: {topics_str} | Difficulty: {diff} | Questions: {cnt}", info)
-        )
+        story.append(Paragraph(f"Difficulty: {diff} | Questions: {cnt}", info))
         story.append(Spacer(1, 18))
         story.append(Paragraph("Questions", styles["Heading2"]))
         story.append(Spacer(1, 8))
 
         qlabel = ParagraphStyle("QL", parent=styles["Normal"], fontSize=11, spaceAfter=2)
         for idx, q in enumerate(questions, 1):
-            story.append(Paragraph(f"<b>Q{idx}.</b>", qlabel))
-            story.append(_latex_image(_get(q, "question_latex", "")))
-            story.append(Spacer(1, 12))
+            story.append(
+                KeepTogether(
+                    [
+                        Paragraph(f"<b>Q{idx}.</b>", qlabel),
+                        _latex_image(_get(q, "question_latex", "")),
+                        Spacer(1, _QUESTION_WRITE_SPACE_PT),
+                    ]
+                )
+            )
 
         if include_answers:
             story.append(PageBreak())
@@ -239,6 +264,12 @@ class PdfService:
         def _page_num(canvas, doc):
             canvas.saveState()
             canvas.setFont("Helvetica", 9)
+            if include_topics and topics_str:
+                footer_topics = f"Topics: {topics_str}"
+                # Keep footer text to one line to avoid colliding with content.
+                if len(footer_topics) > 170:
+                    footer_topics = footer_topics[:167].rstrip() + "..."
+                canvas.drawString(0.75 * inch, 0.35 * inch, footer_topics)
             canvas.drawCentredString(doc.pagesize[0] / 2, 0.5 * inch, f"Page {doc.page}")
             canvas.restoreState()
 

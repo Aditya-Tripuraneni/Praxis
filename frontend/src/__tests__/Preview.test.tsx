@@ -46,11 +46,14 @@ describe("Preview", () => {
     expect(q1).toBeInTheDocument();
   });
 
-  it("renders topic metadata", async () => {
+  it("renders Include topics in PDF footer checkbox", async () => {
     renderPreview();
     await screen.findByText(/test preview/i);
-    // The config has topics: ["algebra"] => displayed as "Topics: Algebra"
-    expect(screen.getByText(/topics: algebra/i)).toBeInTheDocument();
+    const checkbox = screen.getByRole("checkbox", {
+      name: /include topics in pdf footer/i,
+    });
+    expect(checkbox).toBeInTheDocument();
+    expect(checkbox).not.toBeChecked();
   });
 
   it("renders difficulty metadata", async () => {

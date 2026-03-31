@@ -5,7 +5,7 @@ import { getTest, downloadPdf, getUserStats, saveTimerDuration } from '../servic
 import { useSubscription } from '../context/SubscriptionContext';
 import { saveTest } from '../services/api';
 import type { TestResponse } from '../types';
-import { formatDifficultyId, formatTopicSelection } from '../utils/displayFormat';
+import { formatDifficultyId } from '../utils/displayFormat';
 
 const sectionStyle: React.CSSProperties = {
   marginTop: 'calc(-1 * var(--space-8))',
@@ -107,6 +107,7 @@ export default function Preview() {
   const [error, setError] = useState<string | null>(null);
   const [includeAnswers, setIncludeAnswers] = useState(true);
   const [includeSolutions, setIncludeSolutions] = useState(false);
+  const [includeTopics, setIncludeTopics] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [previousDuration, setPreviousDuration] = useState<number | null>(null);
   const { isTutor } = useSubscription();
@@ -158,7 +159,7 @@ export default function Preview() {
     if (!testId) return;
     setDownloading(true);
     try {
-      await downloadPdf(testId, includeAnswers, includeSolutions);
+      await downloadPdf(testId, includeAnswers, includeSolutions, includeTopics);
     } catch {
       setError('Failed to download PDF. Please try again.');
     } finally {
@@ -226,7 +227,6 @@ export default function Preview() {
 
   if (!test) return null;
 
-  const topicsList = test.config.topics.map(formatTopicSelection).join(', ');
   const difficultyLabel = formatDifficultyId(test.config.difficulty);
 
   return (
@@ -235,7 +235,6 @@ export default function Preview() {
         <div style={summaryLeftStyle}>
           <h1 style={summaryTitleStyle}>Test Preview</h1>
           <div style={pillRowStyle}>
-            <span style={pillStyle}>Topics: {topicsList}</span>
             <span style={pillStyle}>Difficulty: {difficultyLabel}</span>
             <span style={pillStyle}>{test.questions.length} questions</span>
           </div>
@@ -295,6 +294,15 @@ export default function Preview() {
             Include solutions
           </label>
         )}
+        <label style={checkboxLabel}>
+          <input
+            type="checkbox"
+            checked={includeTopics}
+            onChange={(e) => setIncludeTopics(e.target.checked)}
+            style={{ accentColor: 'var(--color-primary-700)' }}
+          />
+          Include topics in PDF footer
+        </label>
 
         <button
           type="button"
