@@ -122,6 +122,8 @@ sequenceDiagram
   Frontend->>FastAPI: POST /api/tests/generate with config and token
   FastAPI->>SupabaseAuth: Validate token
   SupabaseAuth-->>FastAPI: User identity
+  FastAPI->>SupabaseDB: Read subscription status
+  SupabaseDB-->>FastAPI: Subscription row
   FastAPI->>TestGen: Generate questions with seed
   TestGen-->>FastAPI: Test payload
   FastAPI-->>Frontend: Test response
