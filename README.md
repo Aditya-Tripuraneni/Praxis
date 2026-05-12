@@ -28,7 +28,7 @@ The product is direct to use, and the code keeps the same clarity in how respons
 
 ### System Architecture Diagram
 ```mermaid
-graph TD
+graph LR
   subgraph Client
     Browser[User Browser]
     Frontend[React + TypeScript frontend\nVite, KaTeX]
@@ -193,7 +193,7 @@ Backend health: http://localhost:8000/api/health
 
 ### Testing and CI
 Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend and TypeScript type checks for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest. CI enforces the same checks plus a frontend production build. Backend tests must meet an 80% coverage threshold.
-Frontend coverage is not gated because CI does not collect coverage metrics from Vitest.
+Frontend coverage is not gated because coverage reporting is not wired into the Vitest step in CI.
 
 ```bash
 make lint
