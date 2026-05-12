@@ -21,7 +21,7 @@ Students get structured practice that stays consistent from one session to the n
 Tutors get repeatable materials and a way to reuse proven test sets. They can save configurations, replay them for groups, and monitor how practice volume and topics shift over time. The outcome is less prep and more consistency across learners.
 
 ## Subscription Model
-Praxis offers a student tier for on demand test generation and PDF exports, and a tutor tier that unlocks saved tests and replay. Billing and plan changes run through Stripe, and the backend enforces the active tier on gated routes.
+Praxis offers a student tier for on-demand test generation and PDF exports, and a tutor tier that unlocks saved tests and replay. Billing and plan changes run through Stripe, and the backend enforces the active tier on gated routes.
 
 ## Engineering
 The product is direct to use, and the code keeps the same clarity in how responsibilities are separated.
@@ -161,7 +161,7 @@ graph LR
 | Billing | Stripe | Creates checkout sessions and handles webhook events. |
 | PDF rendering | Tectonic | Compiles LaTeX into PDF responses in a worker thread pool. |
 | Web server | Nginx | Serves static assets and applies CSP headers in production. |
-| Containers | Docker | Builds multi stage images for dev and production. |
+| Containers | Docker | Builds multi-stage images for dev and production. |
 | Local dev | Docker Compose | Runs the frontend and backend together for local work. |
 | CI | GitHub Actions | Runs lint, tests, type checks, and frontend builds. |
 | Hosting | Vercel, Render | Hosts the frontend build and the FastAPI service. |
