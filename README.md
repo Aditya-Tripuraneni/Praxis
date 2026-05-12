@@ -114,6 +114,8 @@ sequenceDiagram
   participant Stripe
   participant PDF
 
+  Note over Stripe,FastAPI: Stripe webhooks update subscription status out of band
+
   User->>Frontend: Choose topics and difficulty
   Frontend->>SupabaseAuth: Sign in and get access token
   SupabaseAuth-->>Frontend: JWT access token
@@ -123,7 +125,6 @@ sequenceDiagram
   FastAPI->>TestGen: Generate questions with seed
   TestGen-->>FastAPI: Test payload
   FastAPI-->>Frontend: Test response
-  Stripe-->>FastAPI: Webhook updates subscription status
   Frontend->>FastAPI: GET /api/tests/{id}/pdf
   FastAPI->>SupabaseAuth: Check active subscription tier
   SupabaseAuth-->>FastAPI: Subscription status
@@ -194,7 +195,7 @@ Backend health: http://localhost:8000/api/health
 ### Testing and CI
 Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend and TypeScript type checks for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest.
 
-CI enforces the same lint and test steps plus a frontend production build. Backend tests must meet an 80% coverage threshold. No frontend coverage threshold is enforced.
+CI enforces the same lint and test steps plus a frontend production build. Backend tests must meet an 80% coverage threshold. No frontend coverage threshold is enforced because CI does not collect coverage metrics for Vitest.
 
 ```bash
 make lint
