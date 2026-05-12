@@ -138,7 +138,7 @@ In the containerized production path, Nginx runs as a reverse proxy sidecar that
 graph LR
   subgraph Production
     User[User] --> Vercel[Vercel CDN\nFrontend static build]
-    Vercel --> Nginx[Nginx sidecar\nTLS, headers, rate limiting proxy]
+    Vercel --> Nginx[Nginx sidecar\nTLS, headers, proxy]
     Nginx --> Render[Render\nFastAPI container]
     Render --> Supabase[Supabase\nAuth and Postgres]
     Render --> Stripe[Stripe\nBilling]
@@ -192,7 +192,9 @@ Frontend: http://localhost:5173
 Backend health: http://localhost:8000/api/health
 
 ### Testing and CI
-Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend and TypeScript type checks for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest. CI enforces the same lint and test steps plus a frontend production build. Backend tests must meet an 80% coverage threshold. No frontend coverage threshold is enforced.
+Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend and TypeScript type checks for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest.
+
+CI enforces the same lint and test steps plus a frontend production build. Backend tests must meet an 80% coverage threshold. No frontend coverage threshold is enforced.
 
 ```bash
 make lint
