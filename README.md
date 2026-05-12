@@ -42,7 +42,7 @@ graph LR
     Stripe[Stripe<br/>Checkout session, webhook handler]
   end
   subgraph Infrastructure
-    Nginx[Nginx<br/>TLS termination, CSP headers]
+    Nginx[Nginx<br/>Static assets, CSP headers]
     Docker[Docker<br/>Multi-stage builds, non-root containers]
   end
 
@@ -59,48 +59,47 @@ graph LR
 ### Data Model / Entity Relationships
 ```mermaid
 erDiagram
-  users {
+  "auth.users" {
     uuid id
     text email
-    text tier
     timestamptz created_at
   }
   subscriptions {
-    uuid id
     uuid user_id
     text stripe_customer_id
     text stripe_subscription_id
+    text plan
     text status
-    text tier
+    timestamptz current_period_start
+    timestamptz current_period_end
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  user_stats {
+    uuid user_id
+    int tests_generated
+    int questions_generated
+    jsonb topic_counts
+    int streak_current
+    int streak_best
+    date last_practice_date
+    int last_test_duration
+    timestamptz created_at
+    timestamptz updated_at
   }
   saved_tests {
     uuid id
     uuid user_id
-    text title
+    text test_name
     jsonb config
-    jsonb seeds
+    int seed
+    jsonb questions
     timestamptz created_at
   }
-  test_attempts {
-    uuid id
-    uuid user_id
-    uuid saved_test_id
-    timestamptz completed_at
-    int duration_seconds
-  }
-  user_stats {
-    uuid id
-    uuid user_id
-    int lifetime_count
-    int streak
-    timestamptz last_practiced_at
-  }
 
-  users ||--o| subscriptions : has
-  users ||--o{ saved_tests : owns
-  users ||--o{ test_attempts : logs
-  users ||--|| user_stats : tracks
-  saved_tests ||--o{ test_attempts : produces
+  "auth.users" ||--o| subscriptions : has
+  "auth.users" ||--|| user_stats : tracks
+  "auth.users" ||--o{ saved_tests : owns
 ```
 
 ### Request Flow Diagram
@@ -110,6 +109,7 @@ sequenceDiagram
   participant Frontend
   participant FastAPI
   participant SupabaseAuth
+  participant SupabaseDB
   participant TestGen
   participant Stripe
   participant PDF
@@ -126,21 +126,21 @@ sequenceDiagram
   TestGen-->>FastAPI: Test payload
   FastAPI-->>Frontend: Test response
   Frontend->>FastAPI: GET /api/tests/{id}/pdf
-  FastAPI->>SupabaseAuth: Check active subscription tier
-  SupabaseAuth-->>FastAPI: Subscription status
+  FastAPI->>SupabaseDB: Read subscription status
+  SupabaseDB-->>FastAPI: Subscription row
   FastAPI->>PDF: Compile LaTeX in thread pool
   PDF-->>FastAPI: PDF bytes
   FastAPI-->>Frontend: PDF response
 ```
 
 ### Deployment Topology
-In the containerized production path, Nginx runs as a reverse proxy sidecar that terminates TLS and applies headers before forwarding requests to the FastAPI container. Nginx handles proxying while FastAPI enforces rate limits.
+Production serves the frontend as a static site on Vercel or Render, with the backend deployed as a Docker web service on Render. The frontend Docker image uses Nginx for CSP headers when the containerized frontend is used.
 ```mermaid
 graph LR
   subgraph Production
     User[User] --> Vercel[Vercel CDN<br/>Frontend static build]
-    Vercel --> Nginx[Nginx sidecar<br/>TLS, headers, proxy]
-    Nginx --> Render[Render<br/>FastAPI container]
+    Vercel --> Browser[Browser SPA]
+    Browser --> Render[Render<br/>FastAPI container]
     Render --> Supabase[Supabase<br/>Auth and Postgres]
     Render --> Stripe[Stripe<br/>Billing]
   end
@@ -163,7 +163,7 @@ graph LR
 | Database | Supabase Postgres with RLS | Stores subscriptions, saved tests, and user stats with row level rules. |
 | Billing | Stripe | Creates checkout sessions and handles webhook events. |
 | PDF rendering | Tectonic | Compiles LaTeX into PDF responses in a worker thread pool. |
-| Web server | Nginx | Serves static assets and applies CSP headers in production. |
+| Web server | Nginx | Serves the containerized frontend and applies CSP headers. |
 | Containers | Docker | Builds multi-stage images for dev and production. |
 | Local dev | Docker Compose | Runs the frontend and backend together for local work. |
 | CI | GitHub Actions | Runs lint, tests, type checks, and frontend builds. |
@@ -193,9 +193,9 @@ Frontend: http://localhost:5173
 Backend health: http://localhost:8000/api/health
 
 ### Testing and CI
-Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend and TypeScript type checks for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest.
+Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend plus a TypeScript type check for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest.
 
-CI runs those local lint and test checks and also performs additional frontend validation with `npm run lint` (ESLint) and `npm run build` for a production build. Backend tests must meet an 80% coverage threshold. No frontend coverage threshold is enforced because CI does not collect coverage metrics for Vitest.
+CI runs Ruff, pytest with an 80% coverage threshold, ESLint, TypeScript type checks, Vitest, and a frontend production build, but no frontend coverage threshold is enforced because Vitest coverage reporting is not wired into CI.
 
 ```bash
 make lint
