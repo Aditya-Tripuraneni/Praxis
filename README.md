@@ -96,7 +96,7 @@ erDiagram
     timestamptz last_practiced_at
   }
 
-  users ||--|| subscriptions : has
+  users ||--o| subscriptions : has
   users ||--o{ saved_tests : owns
   users ||--o{ test_attempts : logs
   users ||--|| user_stats : tracks
@@ -123,9 +123,10 @@ sequenceDiagram
   FastAPI->>TestGen: Generate questions with seed
   TestGen-->>FastAPI: Test payload
   FastAPI-->>Frontend: Test response
+  Stripe-->>FastAPI: Webhook updates subscription status
   Frontend->>FastAPI: GET /api/tests/{id}/pdf
-  FastAPI->>Stripe: Check active subscription tier
-  Stripe-->>FastAPI: Subscription status
+  FastAPI->>SupabaseAuth: Check active subscription tier
+  SupabaseAuth-->>FastAPI: Subscription status
   FastAPI->>PDF: Compile LaTeX in thread pool
   PDF-->>FastAPI: PDF bytes
   FastAPI-->>Frontend: PDF response
@@ -188,7 +189,7 @@ Frontend: http://localhost:5173
 Backend health: http://localhost:8000/api/health
 
 ### Testing and CI
-Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend and TypeScript type checks for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest. CI enforces the same checks plus a frontend production build, and backend tests must meet an 80% coverage threshold.
+Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend and TypeScript type checks for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest. CI enforces the same checks plus a frontend production build. Backend tests must meet an 80% coverage threshold.
 
 ```bash
 make lint
