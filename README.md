@@ -1,78 +1,194 @@
 # Praxis
+Praxis generates math practice tests for students and tutors who need consistent material and tracked progress.
 
-Praxis is a production-ready math practice platform built to turn high‑quality study time into a repeatable, trackable system. It exists because students and educators shouldn’t have to choose between speed and rigor: Praxis generates structured, topic‑balanced tests on demand, packages them into downloadable PDFs, and tracks growth over time — all while staying cleanly deployable as a modern SaaS.
+## The Problem
+Writing practice sets by hand is slow and uneven. Difficulty drifts, topic coverage shifts, and the same effort has to be repeated every week. Without a shared system, students cannot see how practice connects to progress.
 
-If you’re an engineer, Praxis reads like a disciplined product: a React + TypeScript frontend, a FastAPI backend, strong API boundaries, security‑first defaults, and a deployment story that treats production as a first‑class environment. If you’re a recruiter, it’s a full‑stack application with billing, authentication, and user analytics — and a codebase that’s already built to run in the real world.
+## What Praxis Does
+Praxis generates tests from topic and difficulty inputs, producing a repeatable mix that can be recreated from the same configuration and seed.
 
-## The experience it delivers
+Each test can be exported as a PDF built from LaTeX, with optional answers and solutions for review or classroom use.
 
-Praxis takes a learner from “I need practice” to “I can show measurable progress” in a few minutes:
+Tutor accounts can save tests and replay them later, keeping assignments consistent across sessions and reducing prep time.
 
-- Pick topics and difficulty, generate a fresh test, and immediately start working.
-- Download a clean PDF of the test (with optional answers and solutions) for offline or classroom use.
-- Save tests and replay them later (tutor tier), keeping learning paths consistent.
-- Track lifetime counts, per‑topic distribution, and practice streaks.
-- Subscribe, upgrade, or cancel seamlessly with Stripe billing.
+User stats record lifetime test counts, per topic distribution, practice streaks, and recent timer data so progress is visible over time.
 
-Behind the scenes, Praxis combines a deterministic test generator with LaTeX‑based PDF rendering, while keeping the user experience responsive through caching and dedicated compute isolation for heavy work.
+Stripe checkout and webhooks keep subscription status aligned with access rules in the API.
 
-## Architecture at a glance
+## Who It's For
+Students get structured practice that stays consistent from one session to the next. They can generate new tests, review answers, and track progress without stitching together separate tools. The result is more time spent practicing and less time preparing.
 
-- **Frontend:** React 18 + TypeScript + Vite, KaTeX math rendering, routed SPA.
-- **Backend:** FastAPI with typed request/response models and rate‑limited endpoints.
-- **Data & Auth:** Supabase for auth, user stats, and saved tests.
-- **Billing:** Stripe checkout + webhook processing for subscription lifecycle.
-- **PDF pipeline:** Tectonic‑powered LaTeX compilation, cached and isolated in its own thread pool.
+Tutors get repeatable materials and a way to reuse proven test sets. They can save configurations, replay them for groups, and monitor how practice volume and topics shift over time. The outcome is less prep and more consistency across learners.
 
-The result is a stack that’s familiar to engineers but purpose‑built for production reliability.
+## Subscription Model
+Praxis offers a student tier for on demand test generation and PDF exports, and a tutor tier that unlocks saved tests and replay. Billing and plan changes run through Stripe, and the backend enforces the active tier on gated routes.
 
-## Production posture
+## Engineering
+The product is direct to use, and the code keeps the same clarity in how responsibilities are separated.
 
-Praxis is intentionally built like a product you can ship:
+### System Architecture Diagram
+```mermaid
+graph TD
+  subgraph Client
+    Browser[User Browser]
+    Frontend[React + TypeScript frontend\nVite, KaTeX]
+  end
+  subgraph "Backend Services"
+    API[FastAPI backend\nRate limiting, typed endpoints]
+    PDF[PDF pipeline\nTectonic compiler, thread pool]
+  end
+  subgraph "External Services"
+    Supabase[Supabase\nAuth, Postgres with RLS, saved tests]
+    Stripe[Stripe\nCheckout session, webhook handler]
+  end
+  subgraph Infrastructure
+    Nginx[Nginx\nTLS termination, CSP headers]
+    Docker[Docker\nMulti-stage builds, non-root containers]
+  end
 
-- **Multi‑stage Docker builds** with pinned base images for supply‑chain integrity.
-- **Non‑root production containers** and explicit runtime hardening.
-- **Security headers + CSP** enforced at the edge (Nginx) and in the API.
-- **Rate limiting** on auth, billing, and generation routes.
-- **Structured security logging** for auth‑related events.
-- **Health checks** for both API and frontend containers.
-- **Environment‑driven config** for clean separation of dev/test/prod.
-- **CI pipelines** that lint, type‑check, test, and build on every PR.
+  Browser --> Nginx --> Frontend
+  Frontend --> API
+  API --> Supabase
+  API --> Stripe
+  API --> PDF
+  Docker --> API
+  Docker --> Frontend
+  Docker --> Nginx
+```
 
-This isn’t just a demo — it’s an application that treats uptime, privacy, and scalability as defaults.
+### Data Model / Entity Relationships
+```mermaid
+erDiagram
+  users {
+    uuid id
+    text email
+    text tier
+    timestamptz created_at
+  }
+  subscriptions {
+    uuid id
+    uuid user_id
+    text stripe_customer_id
+    text stripe_subscription_id
+    text status
+    text tier
+  }
+  saved_tests {
+    uuid id
+    uuid user_id
+    text title
+    jsonb config
+    jsonb seeds
+    timestamptz created_at
+  }
+  test_attempts {
+    uuid id
+    uuid user_id
+    uuid saved_test_id
+    timestamptz completed_at
+    int duration_seconds
+  }
+  user_stats {
+    uuid id
+    uuid user_id
+    int lifetime_count
+    int streak
+    timestamptz last_practiced_at
+  }
 
-## Environments & deployment story
+  users ||--|| subscriptions : has
+  users ||--o{ saved_tests : owns
+  users ||--o{ test_attempts : logs
+  users ||--|| user_stats : tracks
+  saved_tests ||--o{ test_attempts : produces
+```
 
-Praxis ships with distinct development and production behaviors:
+### Request Flow Diagram
+```mermaid
+sequenceDiagram
+  actor User
+  participant Frontend
+  participant FastAPI
+  participant SupabaseAuth
+  participant TestGen
+  participant Stripe
+  participant PDF
 
-- **Local dev:** Docker Compose spins up backend + frontend with hot reload.
-- **Production:** Docker builds use hardened images and minimal dependencies.
-- **Deployments:** The repository includes a full production deployment guide
-  (Supabase + Stripe + Render) in [`docs/production-deployment-guide.md`](docs/production-deployment-guide.md).
+  User->>Frontend: Choose topics and difficulty
+  Frontend->>SupabaseAuth: Sign in and get access token
+  SupabaseAuth-->>Frontend: JWT access token
+  Frontend->>FastAPI: POST /api/tests/generate with config and token
+  FastAPI->>SupabaseAuth: Validate token
+  SupabaseAuth-->>FastAPI: User identity
+  FastAPI->>TestGen: Generate questions with seed
+  TestGen-->>FastAPI: Test payload
+  FastAPI-->>Frontend: Test response
+  Frontend->>FastAPI: GET /api/tests/{id}/pdf
+  FastAPI->>Stripe: Check active subscription tier
+  Stripe-->>FastAPI: Subscription status
+  FastAPI->>PDF: Compile LaTeX in thread pool
+  PDF-->>FastAPI: PDF bytes
+  FastAPI-->>Frontend: PDF response
+```
 
-The same code runs everywhere; only environment variables change between dev and prod.
+### Deployment Topology
+```mermaid
+graph LR
+  subgraph Production
+    User[User] --> Vercel[Vercel CDN\nFrontend static build]
+    Vercel --> Nginx[Nginx sidecar\nTLS, headers, rate limiting proxy]
+    Nginx --> Render[Render\nFastAPI container]
+    Render --> Supabase[Supabase\nAuth and Postgres]
+    Render --> Stripe[Stripe\nBilling]
+  end
+  subgraph Development
+    Dev[Developer] --> Compose[Docker Compose]
+    Compose --> DevFrontend[Frontend dev server]
+    Compose --> DevAPI[FastAPI dev server]
+    DevAPI --> DevSupabase[Supabase dev project]
+    DevAPI --> DevStripe[Stripe test mode]
+  end
+```
 
-## Local development
+### Tech Stack Table
+| Layer | Technology | Purpose |
+| --- | --- | --- |
+| Frontend | React, TypeScript, Vite | Renders the SPA, handles routing, and builds static assets. |
+| Math rendering | KaTeX | Displays math notation in the browser. |
+| Backend API | FastAPI | Serves typed endpoints for generation, billing, and stats. |
+| Auth | Supabase Auth | Manages signup, login, and JWT validation. |
+| Database | Supabase Postgres with RLS | Stores subscriptions, saved tests, and user stats with row level rules. |
+| Billing | Stripe | Creates checkout sessions and handles webhook events. |
+| PDF rendering | Tectonic | Compiles LaTeX into PDF responses in a worker thread pool. |
+| Web server | Nginx | Serves static assets and applies CSP headers in production. |
+| Containers | Docker | Builds multi stage images for dev and production. |
+| Local dev | Docker Compose | Runs the frontend and backend together for local work. |
+| CI | GitHub Actions | Runs lint, tests, type checks, and frontend builds. |
+| Hosting | Vercel, Render | Hosts the frontend build and the FastAPI service. |
 
-1. Create a `.env` file in the repo root with:
-   - `SUPABASE_URL`
-   - `SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-   - `SUPABASE_JWT_SECRET`
-   - `STRIPE_SECRET_KEY`
-   - `STRIPE_WEBHOOK_SECRET`
-   - `STRIPE_STUDENT_PRICE_ID`
-   - `STRIPE_TUTOR_PRICE_ID`
-2. Start the stack:
-   ```bash
-   docker compose up --build
-   ```
-3. Frontend: http://localhost:5173  
-   Backend health: http://localhost:8000/api/health
+### Local Development
+Prerequisites: Docker and a `.env` file in the repo root.
 
-## Testing & quality gates
+Required environment variables:
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `SUPABASE_JWT_SECRET`
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `STRIPE_STUDENT_PRICE_ID`
+- `STRIPE_TUTOR_PRICE_ID`
 
-From the repository root:
+Run the stack:
+```bash
+docker compose up --build
+```
+
+Frontend: http://localhost:5173  
+Backend health: http://localhost:8000/api/health
+
+### Testing and CI
+Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend and TypeScript type checks for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest. CI enforces the same checks plus a frontend production build, and backend tests must meet an 80 percent coverage threshold.
 
 ```bash
 make lint
@@ -80,10 +196,15 @@ make test-backend
 make test-frontend
 ```
 
-CI runs:
-- **Backend:** Ruff linting + pytest with coverage threshold (80%).
-- **Frontend:** ESLint, TypeScript type checks, Vitest, and production build.
-
-## Why Praxis exists
-
-Praxis was built to make disciplined practice feel effortless. Educators can generate consistent material without manual authoring, students can practice in a way that feels curated, and the platform’s subscription model keeps the system sustainable. It’s the kind of product that’s both pedagogically useful and technically scalable — a training engine wrapped in a production‑grade SaaS.
+### Repository Structure
+```
+.
+├── backend/        FastAPI service
+├── frontend/       React SPA
+├── docs/           Deployment guide
+├── mockups/        UI mockups
+├── specs/          Product specs
+├── .github/        CI workflows
+├── docker-compose.yml  Local stack
+├── Makefile        Dev commands
+```
