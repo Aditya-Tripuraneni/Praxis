@@ -180,6 +180,8 @@ Required environment variables:
 - `STRIPE_STUDENT_PRICE_ID`
 - `STRIPE_TUTOR_PRICE_ID`
 
+`SUPABASE_SERVICE_ROLE_KEY` is backend-only. Keep it out of the frontend and never commit it.
+
 Run the stack:
 ```bash
 docker compose up --build
@@ -190,6 +192,7 @@ Backend health: http://localhost:8000/api/health
 
 ### Testing and CI
 Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend and TypeScript type checks for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest. CI enforces the same checks plus a frontend production build. Backend tests must meet an 80% coverage threshold.
+No frontend coverage threshold is enforced in CI.
 
 ```bash
 make lint
