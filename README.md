@@ -31,19 +31,19 @@ The product is direct to use, and the code keeps the same clarity in how respons
 graph LR
   subgraph Client
     Browser[User Browser]
-    Frontend[React + TypeScript frontend\nVite, KaTeX]
+    Frontend[React + TypeScript frontend<br/>Vite, KaTeX]
   end
   subgraph "Backend Services"
-    API[FastAPI backend\nRate limiting, typed endpoints]
-    PDF[PDF pipeline\nTectonic compiler, thread pool]
+    API[FastAPI backend<br/>Rate limiting, typed endpoints]
+    PDF[PDF pipeline<br/>Tectonic compiler, thread pool]
   end
   subgraph "External Services"
-    Supabase[Supabase\nAuth, Postgres with RLS, saved tests]
-    Stripe[Stripe\nCheckout session, webhook handler]
+    Supabase[Supabase<br/>Auth, Postgres with RLS, saved tests]
+    Stripe[Stripe<br/>Checkout session, webhook handler]
   end
   subgraph Infrastructure
-    Nginx[Nginx\nTLS termination, CSP headers]
-    Docker[Docker\nMulti-stage builds, non-root containers]
+    Nginx[Nginx<br/>TLS termination, CSP headers]
+    Docker[Docker<br/>Multi-stage builds, non-root containers]
   end
 
   Browser --> Nginx --> Frontend
@@ -138,11 +138,11 @@ In the containerized production path, Nginx runs as a reverse proxy sidecar that
 ```mermaid
 graph LR
   subgraph Production
-    User[User] --> Vercel[Vercel CDN\nFrontend static build]
-    Vercel --> Nginx[Nginx sidecar\nTLS, headers, proxy]
-    Nginx --> Render[Render\nFastAPI container]
-    Render --> Supabase[Supabase\nAuth and Postgres]
-    Render --> Stripe[Stripe\nBilling]
+    User[User] --> Vercel[Vercel CDN<br/>Frontend static build]
+    Vercel --> Nginx[Nginx sidecar<br/>TLS, headers, proxy]
+    Nginx --> Render[Render<br/>FastAPI container]
+    Render --> Supabase[Supabase<br/>Auth and Postgres]
+    Render --> Stripe[Stripe<br/>Billing]
   end
   subgraph Development
     Dev[Developer] --> Compose[Docker Compose]
