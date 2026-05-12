@@ -195,7 +195,7 @@ Backend health: http://localhost:8000/api/health
 ### Testing and CI
 Local quality gates run through the Makefile. `make lint` runs Ruff and formatting checks for the backend and TypeScript type checks for the frontend. `make test-backend` runs pytest, and `make test-frontend` runs Vitest.
 
-CI enforces the same lint and test steps plus a frontend production build. Backend tests must meet an 80% coverage threshold. No frontend coverage threshold is enforced because CI does not collect coverage metrics for Vitest.
+CI runs those local lint and test checks and also performs additional frontend validation with `npm run lint` (ESLint) and `npm run build` for a production build. Backend tests must meet an 80% coverage threshold. No frontend coverage threshold is enforced because CI does not collect coverage metrics for Vitest.
 
 ```bash
 make lint
