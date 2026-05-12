@@ -43,7 +43,7 @@ graph LR
   end
   subgraph Infrastructure
     Nginx[Nginx<br/>Static assets, CSP headers]
-    Docker[Docker<br/>Multi-stage builds, non-root containers]
+    Docker[Docker<br/>Multi-stage builds, backend runs non-root]
   end
 
   Browser --> Nginx --> Frontend
